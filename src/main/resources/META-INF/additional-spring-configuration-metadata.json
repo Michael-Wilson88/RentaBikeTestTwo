@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "src/test/resources",
+      "type": "java.lang.String",
+      "description": "Description for src/test/resources."
+    },
+    {
+      "name": "src/test/resources",
+      "type": "java.lang.String",
+      "description": "Description for src/test/resources."
+    }
+  ] }
