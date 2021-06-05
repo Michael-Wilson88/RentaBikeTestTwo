@@ -21,7 +21,7 @@ De bedrijfsleider/manager/baas zal dan zelf bepalen wat voor actie ondernomen wo
 
 
 
-#Json data format
+# Json data format
 
 Ik heb mijn server ingesteld op Localhost:8090
 
