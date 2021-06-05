@@ -139,8 +139,8 @@ localhost:8090/createbike
     "electric": true    
     
 }
- De basePrice is 20 voor een elektrische fiets en moet worden aangepast naar 10 voor een niet elektrische fiets.
 
+  De basePrice is 20 voor een elektrische fiets en moet worden aangepast naar 10 voor een niet elektrische fiets.
 
 localhost:8090/createcustomer
     Post
@@ -182,6 +182,19 @@ Extra Customers
     "passportNumber" : "HA72419BZ",
     "country" : "Netherlands",
     "address" : "Kerkstraat 1"
+
+}
+
+{
+    
+    "firstName" : "Martien",
+    "lastName" : "Wilson",
+    "age" : "70",
+    "phoneNumber" : "0611223345",
+    "emailAddress" : "MWilson@rentabike.com",
+    "passportNumber" : "HA72419BT",
+    "country" : "Netherlands",
+    "address" : "Vlashoven 32"
 
 }
 

@@ -55,10 +55,8 @@ public class RentalServiceImpl implements RentalService {
         if(optionalRental.isEmpty()) {
             throw new RentalNotFoundException(id);
         }
-
         Rental rental = optionalRental.get();
         RentalResponse rentalResponse = getRentalResponseObject(rental);
-
         if (rental.getCustomer() == null){
             return ResponseEntity.status(404).body("No customer found, please add customer to rental.");
         }
@@ -75,10 +73,9 @@ public class RentalServiceImpl implements RentalService {
 
 
     private RentalResponse getRentalResponseObject(Rental rental){
+
         RentalResponse rentalResponse = new RentalResponse();
-
         rentalResponse.setCustomer(rental.getCustomer());
-
         rentalResponse.setBikes(bikes);
         rentalResponse.setId(rental.getId());
 
@@ -101,7 +98,6 @@ public class RentalServiceImpl implements RentalService {
             if (optionalRental.isEmpty()){
                 throw new RentalNotFoundException(id);
             }
-
 
         Rental rental = optionalRental.get();
         Bike bike = optionalBike.get();
@@ -139,6 +135,7 @@ public class RentalServiceImpl implements RentalService {
 
         Formatter priceFormat = new Formatter();
         priceFormat.format(" %.2f ", rentalPrice);
+
         if (rentalDays == 1) {
            return ResponseEntity.ok("Bike " + bike.getBikeNumber() + " added for " + rentalDays + " day, at the cost of: €" + priceFormat);
         } else return
@@ -157,7 +154,6 @@ public class RentalServiceImpl implements RentalService {
 
 
     public ResponseEntity<?> payBike(long id, PayBikeRequest payBikeRequest){
-
 
         Optional<Rental> optionalRental = rentalRepository.findById(id);
         if (optionalRental.isEmpty()){
@@ -178,8 +174,6 @@ public class RentalServiceImpl implements RentalService {
         rentalRepository.save(rental);
 
         return ResponseEntity.ok("Bike " + payBikeRequest.getBikeNumber() + " is paid.");
-
-
     }
 
     public ResponseEntity<?> returnBike(long id, ReturnBikeRequest returnBikeRequest) {
@@ -204,7 +198,6 @@ public class RentalServiceImpl implements RentalService {
 
         LocalDate localDate = LocalDate.now();
         long overdue = DAYS.between(bike.getReturnDate(), localDate);
-
 
         if (!bike.getReturnDate().equals(localDate) && bikes.contains(bike)) {
             bike.setRentalDays(overdue);

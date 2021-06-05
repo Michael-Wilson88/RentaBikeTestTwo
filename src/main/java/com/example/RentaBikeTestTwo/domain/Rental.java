@@ -1,6 +1,7 @@
 package com.example.RentaBikeTestTwo.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,9 +14,11 @@ public class Rental {
     private Long id;
 
     @OneToOne
+    @JsonIgnoreProperties(value = {"age", "phoneNumber", "emailAddress", "passportNumber", "country", "address", "rental"})
     public Customer customer;
 
     @OneToMany
+    @JsonIgnoreProperties(value =  {"id","brand", "frameNumber", "retailPrice", "basePrice", "rented", "returnDate", "rentalDays", "electric", "rentalPrice"})
     public List<Bike> bikes;
 
 //    @ManyToOne
