@@ -2,7 +2,6 @@ package com.example.RentaBikeTestTwo.controller;
 
 import com.example.RentaBikeTestTwo.payload.request.*;
 import com.example.RentaBikeTestTwo.service.RentalService;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

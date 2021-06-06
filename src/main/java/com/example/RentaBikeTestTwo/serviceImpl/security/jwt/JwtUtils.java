@@ -22,7 +22,7 @@ public class JwtUtils {
     @Value("rentaBikeSecretKey}")
     private String jwtSecret;
 
-    @Value("${novi.sec.jwtExpirationMs}")
+    @Value("${rentaBike.sec.jwtExpirationMs}")
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
