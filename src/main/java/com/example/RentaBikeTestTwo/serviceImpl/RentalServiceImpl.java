@@ -87,20 +87,38 @@ public class RentalServiceImpl implements RentalService {
         return rentalResponse;
     }
 
+    public boolean doesBikeExist(String bikeNumber){
+
+        Optional<Bike> optionalBike = bikeRepository.findByBikeNumber(bikeNumber);
+        if (optionalBike.isEmpty()){
+            throw new BikeNotFoundException(bikeNumber);
+        }
+        return true;
+    }
+
+    public boolean doesRentalExist(long id){
+        Optional<Rental> optionalRental = rentalRepository.findById(id);
+        if (optionalRental.isEmpty()){
+            throw new RentalNotFoundException(id);
+        }
+        return true;
+    }
+
+    public boolean doesCustomerExist(long id){
+        Optional<Customer> optionalCustomer = customerRepository.findCustomerById(id);
+        if (optionalCustomer.isEmpty()){
+            throw new CustomerNotFoundException(id);
+        }
+        return true;
+    }
 
     public ResponseEntity<?> addBikeToRental(long id, AddBikeRequest addBikeRequest){
 
-        Optional<Bike> optionalBike = bikeRepository.findByBikeNumber(addBikeRequest.getBikeNumber());
-            if (optionalBike.isEmpty()) {
-               throw new BikeNotFoundException(addBikeRequest.getBikeNumber());
-            }
-        Optional<Rental> optionalRental = rentalRepository.findById(id);
-            if (optionalRental.isEmpty()){
-                throw new RentalNotFoundException(id);
-            }
+        doesBikeExist(addBikeRequest.getBikeNumber());
+        doesRentalExist(id);
 
-        Rental rental = optionalRental.get();
-        Bike bike = optionalBike.get();
+        Bike bike = bikeRepository.findByBikeNumber(addBikeRequest.getBikeNumber()).orElse(null);
+        Rental rental = rentalRepository.findById(id).orElse(null);
 
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
@@ -183,12 +201,11 @@ public class RentalServiceImpl implements RentalService {
             return ResponseEntity.status(404).body("Bike list is empty.");
         }
 
-        Optional<Rental> optionalRental = rentalRepository.findById(id);
-        if (optionalRental.isEmpty()){
-           throw new RentalNotFoundException(id);
-        }
+        doesRentalExist(id);
+         // nog even uitzoeken of ik null weg kan doen.
+        Rental rental = rentalRepository.findById(id).orElse(null);
 
-        Rental rental = optionalRental.get();
+        assert rental != null;
         bikes = rental.getBikes();
         Bike bike = findBikeByBikeNumberInList(bikes, returnBikeRequest.getBikeNumber());
 
@@ -202,7 +219,7 @@ public class RentalServiceImpl implements RentalService {
         if (!bike.getReturnDate().equals(localDate) && bikes.contains(bike)) {
             bike.setRentalDays(overdue);
             if (overdue <= -1){
-                return ResponseEntity.status(400).body("Bike is too early, action required.");
+                return ResponseEntity.status(400).body("Bike is too early, further action required.");
             }
             else
                 return ResponseEntity.status(400).body("Bike nr: " + bike.getBikeNumber()
@@ -246,14 +263,12 @@ public class RentalServiceImpl implements RentalService {
             if (optionalCustomer.isEmpty()){
                 throw new CustomerNotFoundException(addCustomerRequest.getId());
             }
-        Optional <Rental> optionalRental = rentalRepository.findById(id);
-            if (optionalRental.isEmpty()) {
-                throw new RentalNotFoundException(id);
-            }
+        doesRentalExist(id);
 
-        Rental rental = optionalRental.get();
+        Rental rental = rentalRepository.findById(id).orElse(null);
 
-            if (rental.getCustomer() == null){
+        assert rental != null;
+        if (rental.getCustomer() == null){
                 rental.setCustomer(optionalCustomer.get());
                 rentalRepository.save(rental);
                 return ResponseEntity.ok("Customer " + optionalCustomer.get().getId() + " "
