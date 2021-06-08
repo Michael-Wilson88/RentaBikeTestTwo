@@ -10,6 +10,7 @@ import com.example.RentaBikeTestTwo.repository.BikeRepository;
 import com.example.RentaBikeTestTwo.repository.CustomerRepository;
 import com.example.RentaBikeTestTwo.repository.RentalRepository;
 import com.example.RentaBikeTestTwo.service.RentalService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class RentalServiceImpl implements RentalService {
 
     private List<Bike> bikes = new ArrayList<>();
+
     private double rentalPrice;
 
     @Autowired
@@ -51,14 +53,11 @@ public class RentalServiceImpl implements RentalService {
 
     public ResponseEntity<?> getRentalInfoById(long id) {
 
-        Optional<Rental> optionalRental = rentalRepository.findById(id);
-        if(optionalRental.isEmpty()) {
-            throw new RentalNotFoundException(id);
-        }
-        Rental rental = optionalRental.get();
+        Rental rental = checkIfRentalExists(id);
+
         RentalResponse rentalResponse = getRentalResponseObject(rental);
         if (rental.getCustomer() == null){
-            return ResponseEntity.status(404).body("No customer found, please add customer to rental.");
+            return ResponseEntity.status(404).body("No customer found, please add a customer to rental.");
         }
 
         return ResponseEntity.ok(rentalResponse);
@@ -87,45 +86,71 @@ public class RentalServiceImpl implements RentalService {
         return rentalResponse;
     }
 
-    public boolean doesBikeExist(String bikeNumber){
 
+    public Bike checkIfBikeExists(String bikeNumber){
         Optional<Bike> optionalBike = bikeRepository.findByBikeNumber(bikeNumber);
         if (optionalBike.isEmpty()){
             throw new BikeNotFoundException(bikeNumber);
         }
-        return true;
+        return optionalBike.get();
     }
 
-    public boolean doesRentalExist(long id){
+
+    public Rental checkIfRentalExists(long id){
         Optional<Rental> optionalRental = rentalRepository.findById(id);
         if (optionalRental.isEmpty()){
             throw new RentalNotFoundException(id);
         }
-        return true;
+        return optionalRental.get();
     }
 
-    public boolean doesCustomerExist(long id){
+
+    public Customer checkIfCustomerExists(long id){
         Optional<Customer> optionalCustomer = customerRepository.findCustomerById(id);
         if (optionalCustomer.isEmpty()){
             throw new CustomerNotFoundException(id);
         }
-        return true;
+        return optionalCustomer.get();
     }
 
-    public ResponseEntity<?> addBikeToRental(long id, AddBikeRequest addBikeRequest){
+    public Bike findBikeByBikeNumberInList(List<Bike> bikes, String bikeNumber) {
+        for (Bike bike : bikes){
+            if (bike.getBikeNumber().equals(bikeNumber)){
+                return bike;
+            }
+        }
+        throw new BikeNotFoundException(bikeNumber);
+    }
 
-        doesBikeExist(addBikeRequest.getBikeNumber());
-        doesRentalExist(id);
 
-        Bike bike = bikeRepository.findByBikeNumber(addBikeRequest.getBikeNumber()).orElse(null);
-        Rental rental = rentalRepository.findById(id).orElse(null);
+    public LocalDate startDateFormatter(AddBikeRequest addBikeRequest){
 
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .appendPattern("dd-MM-yyyy")
                 .toFormatter(Locale.ENGLISH);
-        LocalDate startDate = LocalDate.parse(addBikeRequest.getBeginDate(), formatter);
-        LocalDate returnDate = LocalDate.parse(addBikeRequest.getEndDate(), formatter);
+
+        return LocalDate.parse(addBikeRequest.getBeginDate(), formatter);
+    }
+
+
+    public LocalDate returnDateFormatter(AddBikeRequest addBikeRequest){
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .parseCaseInsensitive()
+                .appendPattern("dd-MM-yyyy")
+                .toFormatter(Locale.ENGLISH);
+
+        return LocalDate.parse(addBikeRequest.getEndDate(), formatter);
+    }
+
+
+    public ResponseEntity<?> addBikeToRental(long id, AddBikeRequest addBikeRequest){
+
+        Bike bike = checkIfBikeExists(addBikeRequest.getBikeNumber());
+        Rental rental = checkIfRentalExists(id);
+
+        LocalDate startDate = startDateFormatter(addBikeRequest);
+        LocalDate returnDate = returnDateFormatter(addBikeRequest);
         Period rentalPeriod = Period.between(startDate, returnDate);
         long rentalDays = rentalPeriod.getDays();
         bike.setRentalDays(rentalDays);
@@ -160,32 +185,11 @@ public class RentalServiceImpl implements RentalService {
             ResponseEntity.ok("Bike " + bike.getBikeNumber() + " added for " + rentalDays + " days, at the cost of: €" + priceFormat);
     }
 
-
-    public Bike findBikeByBikeNumberInList(List<Bike> bikes, String bikeNumber) {
-        for (Bike bike : bikes){
-            if (bike.getBikeNumber().equals(bikeNumber)){
-                return bike;
-            }
-        }
-        throw new BikeNotFoundException(bikeNumber);
-    }
-
-
     public ResponseEntity<?> payBike(long id, PayBikeRequest payBikeRequest){
 
-        Optional<Rental> optionalRental = rentalRepository.findById(id);
-        if (optionalRental.isEmpty()){
-            throw new RentalNotFoundException(id);
-        }
+        Rental rental = checkIfRentalExists(id);
+        Bike bike = checkIfBikeExists(payBikeRequest.getBikeNumber());
 
-        Rental rental = optionalRental.get();
-
-        Optional<Bike> optionalBike = bikeRepository.findByBikeNumber(payBikeRequest.getBikeNumber());
-            if (optionalBike.isEmpty()){
-                throw new BikeNotFoundException(payBikeRequest.getBikeNumber());
-            }
-
-        Bike bike = optionalBike.get();
         LocalDate localDate = LocalDate.now();
         bike.setReturnDate(localDate);
         bike.setRentalDays(0);
@@ -194,21 +198,17 @@ public class RentalServiceImpl implements RentalService {
         return ResponseEntity.ok("Bike " + payBikeRequest.getBikeNumber() + " is paid.");
     }
 
+
     public ResponseEntity<?> returnBike(long id, ReturnBikeRequest returnBikeRequest) {
 
+        Rental rental = checkIfRentalExists(id);
 
         if(bikes.isEmpty()){
             return ResponseEntity.status(404).body("Bike list is empty.");
         }
 
-        doesRentalExist(id);
-         // nog even uitzoeken of ik null weg kan doen.
-        Rental rental = rentalRepository.findById(id).orElse(null);
-
-        assert rental != null;
         bikes = rental.getBikes();
         Bike bike = findBikeByBikeNumberInList(bikes, returnBikeRequest.getBikeNumber());
-
         if (!bikes.contains(bike)){
             return ResponseEntity.status(404).body("This bike is not in this list.");
         }
@@ -259,20 +259,14 @@ public class RentalServiceImpl implements RentalService {
 
     public ResponseEntity<?> addCustomerToRental(long id, AddCustomerRequest addCustomerRequest){
 
-        Optional<Customer> optionalCustomer = customerRepository.findCustomerById(addCustomerRequest.getId());
-            if (optionalCustomer.isEmpty()){
-                throw new CustomerNotFoundException(addCustomerRequest.getId());
-            }
-        doesRentalExist(id);
+        Customer customer = checkIfCustomerExists(addCustomerRequest.getId());
+        Rental rental = checkIfRentalExists(id);
 
-        Rental rental = rentalRepository.findById(id).orElse(null);
-
-        assert rental != null;
         if (rental.getCustomer() == null){
-                rental.setCustomer(optionalCustomer.get());
+                rental.setCustomer(customer);
                 rentalRepository.save(rental);
-                return ResponseEntity.ok("Customer " + optionalCustomer.get().getId() + " "
-                        + optionalCustomer.get().getFirstName() + " " + optionalCustomer.get().getLastName()
+                return ResponseEntity.ok("Customer " + customer.getId() + " "
+                        + customer.getFirstName() + " " + customer.getLastName()
                         + " added to rental " + rental.getId());
             }
             if (rental.getCustomer().getId() == addCustomerRequest.getId()){
