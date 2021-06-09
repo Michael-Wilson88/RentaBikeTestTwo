@@ -6,8 +6,13 @@
       "description": "Description for src/test/resources."
     },
     {
-      "name": "src/test/resources",
+      "name": "rentaBike.sec.jwtSecret",
       "type": "java.lang.String",
-      "description": "Description for src/test/resources."
+      "description": "Description for rentaBike.sec.jwtSecret."
+    },
+    {
+      "name": "rentaBike.sec.jwtExpirationMs",
+      "type": "java.lang.String",
+      "description": "Description for rentaBike.sec.jwtExpirationMs."
     }
   ] }

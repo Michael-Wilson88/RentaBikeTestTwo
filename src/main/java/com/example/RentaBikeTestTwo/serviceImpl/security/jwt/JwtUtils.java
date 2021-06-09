@@ -19,7 +19,7 @@ public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     // Deze waardes staan geconfigureerd in application.properties
-    @Value("rentaBikeSecretKey}")
+    @Value("{noviHogeschoolSecretKey}")
     private String jwtSecret;
 
     @Value("${rentaBike.sec.jwtExpirationMs}")
