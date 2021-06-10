@@ -41,6 +41,7 @@ public class RentalServiceImpl implements RentalService {
     @Autowired
     private CustomerRepository customerRepository;
 
+
     @Autowired
     public void setRentalRepository(RentalRepository rentalRepository){
         this.rentalRepository = rentalRepository;
@@ -280,8 +281,6 @@ public class RentalServiceImpl implements RentalService {
             }
 
         return ResponseEntity.ok("error");
-
-
     }
 
 

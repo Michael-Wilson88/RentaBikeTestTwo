@@ -1,6 +1,7 @@
 package com.example.RentaBikeTestTwo.service;
 
 import com.example.RentaBikeTestTwo.domain.Bike;
+import com.example.RentaBikeTestTwo.domain.Customer;
 import com.example.RentaBikeTestTwo.domain.Rental;
 import com.example.RentaBikeTestTwo.payload.request.*;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public interface RentalService {
     ResponseEntity<?> payBike(long id, PayBikeRequest payBikeRequest);
     Bike findBikeByBikeNumberInList(List<Bike> bikes, String bikeNumber);
     double calculatePrice(Bike bike);
+    Rental checkIfRentalExists(long id);
+    Bike checkIfBikeExists(String bikeNumber);
+    Customer checkIfCustomerExists(long id);
 
     // ResponseEntity<?> removeBikeFromList(long id, RemoveBikeRequest removeBikeRequest);
 }

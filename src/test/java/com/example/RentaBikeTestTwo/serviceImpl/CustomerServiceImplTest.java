@@ -1,9 +1,15 @@
 package com.example.RentaBikeTestTwo.serviceImpl;
 
+import com.example.RentaBikeTestTwo.domain.Customer;
+import com.example.RentaBikeTestTwo.exceptions.CustomerExistsException;
+import com.example.RentaBikeTestTwo.exceptions.CustomerNotFoundException;
+import com.example.RentaBikeTestTwo.exceptions.RentalNotFoundException;
 import com.example.RentaBikeTestTwo.payload.request.CustomerRequest;
 import com.example.RentaBikeTestTwo.payload.response.ErrorResponse;
 import com.example.RentaBikeTestTwo.repository.CustomerRepository;
 import com.example.RentaBikeTestTwo.service.CustomerService;
+import org.checkerframework.checker.units.qual.C;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +21,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceImplTest {
@@ -41,39 +51,47 @@ class CustomerServiceImplTest {
         customerRequest.setAddress("Testlaan 1");
     }
 
+//    @Test
     @Test
     void nonExistingCustomerIdShouldReturnError() {
 
-       long id = 1;
+        Customer customer = mock(Customer.class);
 
-        Mockito.when(customerRepository.findCustomerById(id)).thenReturn(Optional.empty());
+        Throwable exception = assertThrows(CustomerNotFoundException.class, () -> customerService.getCustomerById(customer.getId()));
+        assertEquals("Customer with id number: " + customer.getId() + ", does not exist.", exception.getMessage());
+    }
+    @Test
+    void customerIdShouldReturnCustomerInfo(){
+        Customer customer = new Customer();
+        Mockito.when(customerRepository.findCustomerById(customer.getId())).thenReturn(Optional.of(customer));
 
-        ResponseEntity<?> responseEntity = customerService.getCustomerById(id);
+        ResponseEntity<?> responseEntity =  customerService.getCustomerById(customer.getId());
 
-        Assertions.assertEquals(400, responseEntity.getStatusCodeValue());
-        Assertions.assertTrue(responseEntity.getBody() instanceof ErrorResponse);
-        Assertions.assertEquals(1, ((ErrorResponse) responseEntity.getBody()).getErrors().size());
+        Assertions.assertEquals(200,  responseEntity.getStatusCodeValue());
+        Assertions.assertEquals((ResponseEntity.ok(customer)), ResponseEntity.ok(customer));
+    }
 
-        Assertions.assertTrue(((((ErrorResponse) responseEntity.getBody()).getErrors()).containsKey("id")));
-        Assertions.assertEquals("Customer with " + id + " does not exist.", ((ErrorResponse) responseEntity.getBody()).getErrors().get("id"));
+    @Test
+    void lastNameShouldReturnCustomerInfo(){
+        Customer customer = new Customer();
+        Mockito.when(customerRepository.findByLastName(customer.getLastName())).thenReturn(Optional.of(customer));
+
+        ResponseEntity<?> responseEntity =  customerService.getCustomerByLastName(customer.getLastName());
+
+        Assertions.assertEquals(200,  responseEntity.getStatusCodeValue());
+        Assertions.assertEquals((ResponseEntity.ok(customer)), ResponseEntity.ok(customer));
 
     }
+
 
     @Test
     void nonExistingLastNameShouldReturnError(){
 
-        String lastName = "van Dam";
+       Mockito.when(customerRepository.findByLastName(customerRequest.getLastName())).thenReturn(Optional.empty());
 
-        Mockito.when(customerRepository.findByLastName(lastName)).thenReturn(Optional.empty());
+       Throwable exception = assertThrows(CustomerNotFoundException.class, () -> customerService.getCustomerByLastName(customerRequest.getLastName()));
 
-        ResponseEntity<?> responseEntity = customerService.getCustomerByLastName(lastName);
-
-        Assertions.assertEquals(400, responseEntity.getStatusCodeValue());
-        Assertions.assertTrue(responseEntity.getBody() instanceof ErrorResponse);
-        Assertions.assertEquals(1, ((ErrorResponse) responseEntity.getBody()).getErrors().size());
-
-        Assertions.assertTrue(((((ErrorResponse) responseEntity.getBody()).getErrors()).containsKey("Customer Error")));
-        Assertions.assertEquals("Customer " + lastName + " does not exist.", ((ErrorResponse) responseEntity.getBody()).getErrors().get("Customer Error"));
+      assertEquals("Customer van Dam does not exist.", exception.getMessage());
 
     }
     @Test
@@ -81,43 +99,49 @@ class CustomerServiceImplTest {
 
         Mockito.when(customerRepository.existsByPhoneNumber(customerRequest.getPhoneNumber())).thenReturn(true);
 
-        ResponseEntity<?> responseEntity = customerService.createCustomer(customerRequest);
 
-        Assertions.assertEquals(400, responseEntity.getStatusCodeValue());
-        Assertions.assertTrue(responseEntity.getBody() instanceof ErrorResponse);
-        Assertions.assertEquals(1, ((ErrorResponse) responseEntity.getBody()).getErrors().size());
+        Throwable exception = assertThrows(CustomerExistsException.class, () -> customerService.createCustomer(customerRequest));
 
-        Assertions.assertTrue(((((ErrorResponse) responseEntity.getBody()).getErrors()).containsKey("Phone Number")));
-        Assertions.assertSame("Phone number already exists.", ((ErrorResponse) responseEntity.getBody()).getErrors().get("Phone Number"));
+        assertEquals("Phone number: 0" + customerRequest.getPhoneNumber() + " is already in use." + "\r\n" +
+                "Customer might already be in the system.", exception.getMessage());
+
     }
+    @Test
+    void existingEmailAddressShouldReturnError(){
+
+        Mockito.when(customerRepository.existsByEmailAddress(customerRequest.getEmailAddress())).thenReturn(true);
+
+        Throwable exception = assertThrows(CustomerExistsException.class, () -> customerService.createCustomer(customerRequest));
+
+        assertEquals("Email address: " + customerRequest.getEmailAddress() + " is already in use." + "\r\n" +
+                "Customer might already be in the system.", exception.getMessage());
+    }
+
+
     @Test
     void existingPassportNumberShouldReturnError() {
 
         Mockito.when(customerRepository.existsByPassportNumber(customerRequest.getPassportNumber())).thenReturn(true);
 
-        ResponseEntity<?> responseEntity = customerService.createCustomer(customerRequest);
+        Throwable exception = assertThrows(CustomerExistsException.class, () -> customerService.createCustomer(customerRequest));
 
-        Assertions.assertEquals(400, responseEntity.getStatusCodeValue());
-        Assertions.assertTrue(responseEntity.getBody() instanceof ErrorResponse);
-        Assertions.assertEquals(1, ((ErrorResponse) responseEntity.getBody()).getErrors().size());
-
-        Assertions.assertTrue(((((ErrorResponse) responseEntity.getBody()).getErrors()).containsKey("Passport Number")));
-        Assertions.assertSame("Passport number already exists.", ((ErrorResponse) responseEntity.getBody()).getErrors().get("Passport Number"));
+        assertEquals("Passport number: " + customerRequest.getPassportNumber() + " is already in use." + "\r\n" +
+                "Customer might already be in the system.", exception.getMessage());
     }
+
     @Test
-    void existingEmailAddressShouldReturnError() {
-
-        Mockito.when(customerRepository.existsByEmailAddress(customerRequest.getEmailAddress())).thenReturn(true);
+    void createCustomerShouldReturnResponseEntity(){
+        Customer customer = new Customer();
+        Mockito.when(customerRepository.existsByPhoneNumber(customerRequest.getPhoneNumber())).thenReturn(false);
+        Mockito.when(customerRepository.existsByEmailAddress(customerRequest.getEmailAddress())).thenReturn(false);
+        Mockito.when(customerRepository.existsByPassportNumber(customerRequest.getPassportNumber())).thenReturn(false);
 
         ResponseEntity<?> responseEntity = customerService.createCustomer(customerRequest);
 
-        Assertions.assertEquals(400, responseEntity.getStatusCodeValue());
-        Assertions.assertTrue(responseEntity.getBody() instanceof ErrorResponse);
-        Assertions.assertEquals(1, ((ErrorResponse) responseEntity.getBody()).getErrors().size());
+        Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
+        Assertions.assertEquals(("Customer "+ customer.getId() + " "+ customer.getFirstName() + " "+ customer.getLastName() + " has been created."),
+                "Customer "+ customer.getId() + " "+ customer.getFirstName() + " "+ customer.getLastName() + " has been created.");
 
-        Assertions.assertTrue(((((ErrorResponse) responseEntity.getBody()).getErrors()).containsKey("Email Address")));
-        Assertions.assertSame("Email address already exists.", ((ErrorResponse) responseEntity.getBody()).getErrors().get("Email Address"));
     }
-
 
 }
