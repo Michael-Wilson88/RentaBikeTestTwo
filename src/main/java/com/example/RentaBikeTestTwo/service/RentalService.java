@@ -23,5 +23,6 @@ public interface RentalService {
     Bike checkIfBikeExists(String bikeNumber);
     Customer checkIfCustomerExists(long id);
 
+
     // ResponseEntity<?> removeBikeFromList(long id, RemoveBikeRequest removeBikeRequest);
 }

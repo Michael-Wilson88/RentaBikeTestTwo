@@ -15,8 +15,6 @@ import com.example.RentaBikeTestTwo.repository.BikeRepository;
 import com.example.RentaBikeTestTwo.repository.CustomerRepository;
 import com.example.RentaBikeTestTwo.repository.RentalRepository;
 import com.example.RentaBikeTestTwo.service.RentalService;
-import org.checkerframework.checker.nullness.Opt;
-import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,11 +29,12 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RentalServiceImplTest {
@@ -83,6 +82,8 @@ class RentalServiceImplTest {
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
+
+
     @Test
     void nonExistingRentalIdShouldReturnError() {
 
@@ -115,11 +116,13 @@ class RentalServiceImplTest {
     @Test
     void noCustomerShouldGiveErrorStatus(){
 
-        Rental rental = new Rental();
-        rental.setId(1L);
-        rentalRepository.save(rental);
+       Rental rental = mock(Rental.class);
+        rental.setId(0L);
 
-        Mockito.when(rentalService.checkIfRentalExists(rental.getId())).thenReturn(rental);
+
+       Mockito.when(rentalService.checkIfRentalExists(rental.getId())).thenReturn(rental);
+
+//        when(rentalRepository.save(Mockito.any(Rental.class))).thenReturn(rental);
 
 
         ResponseEntity<?> responseEntity = rentalService.getRentalInfoById(rental.getId());
@@ -199,6 +202,8 @@ class RentalServiceImplTest {
         testRental.setId(1L);
         rentalRepository.save(testRental);
 
+        when(rentalRepository.save(Mockito.any(Rental.class))).thenReturn(rental);
+
         ResponseEntity<?> responseEntity = rentalService.getRentalInfoById(testRental.getId());
 
         Assertions.assertEquals(rentalResponse, rentalResponse);
@@ -210,31 +215,3 @@ class RentalServiceImplTest {
 
     }
 }
-//
-//    @Test
-//    void earlyBikeShouldReturnError(){
-//        Bike testBike = new Bike("Gazelle", "H234", 1200, "E1", true,20);
-//        long id = 1;
-//        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-//                .parseCaseInsensitive()
-//                .appendPattern("dd-MMM-yyyy")
-//                .toFormatter(Locale.ENGLISH);
-//        LocalDate returnDate = LocalDate.parse("23-dec-2021", formatter);
-//        LocalDate localDate = LocalDate.now();
-//        testBike.setReturnDate(returnDate);
-//        long overdue = DAYS.between(testBike.getReturnDate(), localDate);
-//        Mockito.when(overdue <= -1).thenReturn(true);
-//        List<Bike> bikes = new ArrayList<>();
-//        bikes.add(testBike);
-//
-//        ResponseEntity<?> responseEntity = rentalService.returnBike(id, returnBikeRequest);
-//
-//        Assertions.assertEquals(400, responseEntity.getStatusCodeValue());
-//        Assertions.assertTrue(responseEntity.getBody() instanceof ErrorResponse);
-//        Assertions.assertEquals(1, ((ErrorResponse) responseEntity.getBody()).getErrors().size());
-//
-//        Assertions.assertTrue(((((ErrorResponse) responseEntity.getBody()).getErrors()).containsKey("Bike early")));
-//        Assertions.assertSame("Bike is too early, action required.", ((ErrorResponse) responseEntity.getBody()).getErrors().get("Bike early"));
-//    }
-//
-//}
