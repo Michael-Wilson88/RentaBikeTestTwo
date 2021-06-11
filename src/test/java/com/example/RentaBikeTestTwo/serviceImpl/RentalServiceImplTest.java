@@ -63,6 +63,9 @@ class RentalServiceImplTest {
 
     private ReturnBikeRequest returnBikeRequest;
 
+//    todo: testen op endpoints
+//    todo: checken of ik boolean methode in rental repository moet aanmaken
+//    todo: check hoe nick het doet
 
     @BeforeEach
     void setup() {
@@ -72,7 +75,7 @@ class RentalServiceImplTest {
         bikeRepository.save(bike);
         Rental rental = new Rental();
         rental.setId(1L);
-        rentalRepository.save(rental);
+
 
         AddBikeRequest addBikeRequest = new AddBikeRequest();
         addBikeRequest.setBikeNumber("E1");
@@ -115,12 +118,19 @@ class RentalServiceImplTest {
 //    deze rest nog goed nakijken, doet het niet
     @Test
     void noCustomerShouldGiveErrorStatus(){
+//        Rental rental = new Rental();
+//        rental.setId(1L);
+//        rentalRepository.save(rental);
 
-       Rental rental = mock(Rental.class);
-        rental.setId(0L);
+        Rental rental = mock(Rental.class);
+        Customer customer = mock(Customer.class);
+        rental.setCustomer(customer);
 
 
-       Mockito.when(rentalService.checkIfRentalExists(rental.getId())).thenReturn(rental);
+        System.out.println(rental.getCustomer());
+
+
+       // Mockito.when(rentalService.checkIfRentalExists(rental.getId())).thenReturn(rental);
 
 //        when(rentalRepository.save(Mockito.any(Rental.class))).thenReturn(rental);
 
@@ -190,9 +200,9 @@ class RentalServiceImplTest {
         Rental testRental = new Rental();
         testRental.setId(1L);
         rentalRepository.save(testRental);
-
+    // klopt niet want hij zou het moeten doen
         Throwable exception = assertThrows(RentalNotFoundException.class, () -> rentalService.getRentalInfoById(testRental.getId()));
-        assertEquals("Rental nr: 1 does not exist.", exception.getMessage());
+        assertEquals("Rental nr: " + testRental.getId() + " does not exist.", exception.getMessage());
     }
 
 

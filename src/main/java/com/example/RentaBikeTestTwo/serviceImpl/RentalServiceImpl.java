@@ -41,6 +41,7 @@ public class RentalServiceImpl implements RentalService {
     @Autowired
     private CustomerRepository customerRepository;
 
+// todo: response moet normaliter in Json zijn en ik heb nu response entities, moet ik ff checken
 
     @Autowired
     public void setRentalRepository(RentalRepository rentalRepository){
@@ -84,58 +85,71 @@ public class RentalServiceImpl implements RentalService {
             totalPrice = bike.getRentalPrice() + totalPrice;
         }
         rentalResponse.setTotalPrice(totalPrice);
+
         return rentalResponse;
     }
 
 
     public Bike checkIfBikeExists(String bikeNumber){
+
         Optional<Bike> optionalBike = bikeRepository.findByBikeNumber(bikeNumber);
+
         if (optionalBike.isEmpty()){
             throw new BikeNotFoundException(bikeNumber);
         }
+
         return optionalBike.get();
     }
 
 
-    public Rental checkIfRentalExists(long id){
+    public Rental checkIfRentalExists(long id) {
+
         Optional<Rental> optionalRental = rentalRepository.findById(id);
+
         if (optionalRental.isEmpty()){
             throw new RentalNotFoundException(id);
         }
+
         return optionalRental.get();
     }
 
 
-    public Customer checkIfCustomerExists(long id){
+    public Customer checkIfCustomerExists(long id) {
+
         Optional<Customer> optionalCustomer = customerRepository.findCustomerById(id);
+
         if (optionalCustomer.isEmpty()){
             throw new CustomerNotFoundException(id);
         }
+
         return optionalCustomer.get();
     }
 
     public Bike findBikeByBikeNumberInList(List<Bike> bikes, String bikeNumber) {
+
         for (Bike bike : bikes){
             if (bike.getBikeNumber().equals(bikeNumber)){
                 return bike;
             }
         }
+
         throw new BikeNotFoundException(bikeNumber);
     }
 
 
-    public LocalDate startDateFormatter(AddBikeRequest addBikeRequest){
+    public LocalDate startDateFormatter(AddBikeRequest addBikeRequest) {
 
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .appendPattern("dd-MM-yyyy")
                 .toFormatter(Locale.ENGLISH);
-
+        // unix time
         return LocalDate.parse(addBikeRequest.getBeginDate(), formatter);
     }
 
 
-    public LocalDate returnDateFormatter(AddBikeRequest addBikeRequest){
+    public LocalDate returnDateFormatter(AddBikeRequest addBikeRequest) {
+
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .appendPattern("dd-MM-yyyy")
@@ -145,7 +159,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
 
-    public ResponseEntity<?> addBikeToRental(long id, AddBikeRequest addBikeRequest){
+    public ResponseEntity<?> addBikeToRental(long id, AddBikeRequest addBikeRequest) {
 
         Bike bike = checkIfBikeExists(addBikeRequest.getBikeNumber());
         Rental rental = checkIfRentalExists(id);
@@ -156,7 +170,8 @@ public class RentalServiceImpl implements RentalService {
         long rentalDays = rentalPeriod.getDays();
         bike.setRentalDays(rentalDays);
 
-        if (bike.getRentalDays() <= 0){
+
+        if (bike.getRentalDays() <= 0) {
           throw new IncorrectDateException();
         }
 
@@ -171,11 +186,11 @@ public class RentalServiceImpl implements RentalService {
             bike.setRentalDays(rentalDays);
             bike.setRented(true);
             rentalRepository.save(rental);
-            }
+        }
 
         else if (bikes.contains(bike)){
           throw new DuplicateBikeException(bike);
-            }
+        }
 
         Formatter priceFormat = new Formatter();
         priceFormat.format(" %.2f ", rentalPrice);
@@ -240,6 +255,9 @@ public class RentalServiceImpl implements RentalService {
     }
 
     public double calculatePrice(Bike bike){
+
+//         rentalprice= kan ik inkorten door eventueel verwijderen e vervangen door return
+//        zo gaat die niet alle ifs af
 
        long rentalDays = bike.getRentalDays();
         if (rentalDays == 1){

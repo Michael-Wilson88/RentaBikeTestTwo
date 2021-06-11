@@ -19,7 +19,7 @@ op basis van de hoeveelheid dagen en type fiets. Als de fietsen worden ingelever
 extra betaalt dient te worden. Het kan ook zo zijn dat door omstandigheden de fiets te vroeg ingeleverd wordt en dan zal het systeem een foutmelding geven.
 De bedrijfsleider/manager/baas zal dan zelf bepalen wat voor actie ondernomen wordt. 
 
-
+// archive ipv delete bike
 
 # Json data format
 
