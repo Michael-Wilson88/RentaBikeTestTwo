@@ -4,7 +4,7 @@ package com.example.RentaBikeTestTwo.payload.request;
 import javax.validation.constraints.NotBlank;
 
 public class AddBikeRequest {
-    @NotBlank(message = "Bikenumber  is mandatory")
+    @NotBlank(message = "Bike number  is mandatory")
     private String bikeNumber;
 
     @NotBlank(message = "BeginDate is mandatory")

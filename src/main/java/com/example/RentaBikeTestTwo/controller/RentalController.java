@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-public class RentalController {
+public class RentalController extends BaseController {
 
     private RentalService rentalService;
 
@@ -29,7 +29,7 @@ public class RentalController {
     }
 
     @PostMapping(value = "/createrental")
-    public ResponseEntity<?> createRental(@Valid @RequestBody RentalRequest rentalRequest){
+    public ResponseEntity<?> createRental(@Valid @RequestBody RentalRequest rentalRequest) {
         return rentalService.createRental(rentalRequest);
     }
 
@@ -43,13 +43,14 @@ public class RentalController {
         return rentalService.addCustomerToRental(id, addCustomerRequest);
     }
     @PostMapping(value = "rentals/{id}/returnbike")
-    public ResponseEntity<?> returnBike(@PathVariable("id") long id, @Valid @RequestBody ReturnBikeRequest returnBikeRequest){
+    public ResponseEntity<?> returnBike(@PathVariable("id") long id, @Valid @RequestBody ReturnBikeRequest returnBikeRequest) {
         return rentalService.returnBike(id, returnBikeRequest);
     }
     @PostMapping(value = "rentals/{id}/paybike")
-    public ResponseEntity<?> payBike(@PathVariable("id") long id, @Valid @RequestBody PayBikeRequest payBikeRequest){
+    public ResponseEntity<?> payBike(@PathVariable("id") long id, @Valid @RequestBody PayBikeRequest payBikeRequest) {
         return rentalService.payBike(id, payBikeRequest);
     }
+
 //    @PostMapping(value = "rentals/{id}/removebike")
 //    public ResponseEntity<?> removeBikeFromList(@PathVariable("id") long id, @Valid @RequestBody RemoveBikeRequest removeBikeRequest){
 //     return rentalService.removeBikeFromList(id,removeBikeRequest);

@@ -14,5 +14,10 @@
       "name": "rentaBike.sec.jwtExpirationMs",
       "type": "java.lang.String",
       "description": "Description for rentaBike.sec.jwtExpirationMs."
+    },
+    {
+      "name": "security",
+      "type": "java.lang.String",
+      "description": "Description for security."
     }
   ] }
