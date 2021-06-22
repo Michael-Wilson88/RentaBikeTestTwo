@@ -13,6 +13,9 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: 22-6-2021 check ff preAuthorize annotation
+//requestbody Authentication authentication
+// User user = authetication.getName(Username)
 @RestController
 public class BikeController extends BaseController {
 

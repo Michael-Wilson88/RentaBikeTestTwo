@@ -20,6 +20,7 @@ public class User {
     )
     @Column(columnDefinition = "serial")
     private long id;
+    @Column(unique = true)
     private String username;
     private String email;
     private String password;

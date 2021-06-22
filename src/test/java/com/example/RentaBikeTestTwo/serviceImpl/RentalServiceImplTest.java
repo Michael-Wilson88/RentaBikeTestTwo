@@ -36,6 +36,9 @@ import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+//alle atributen private
+//alle methodes public getters and setters etc
+
 @ExtendWith(MockitoExtension.class)
 class RentalServiceImplTest {
 
@@ -96,7 +99,8 @@ class RentalServiceImplTest {
         assertEquals("Rental nr: " + rental.getId() + " does not exist.", exception.getMessage());
     }
 
-
+//    Arrange, act assert
+//    of bij mock Given, When ,then
     @Test
     void nonExistingCustomerIdShouldReturnError() {
 
@@ -118,14 +122,21 @@ class RentalServiceImplTest {
 //    deze rest nog goed nakijken, doet het niet
     @Test
     void noCustomerShouldGiveErrorStatus(){
-//        Rental rental = new Rental();
-//        rental.setId(1L);
+
+
+        Rental rental = new Rental();
+        rental.setId(1L);
 //        rentalRepository.save(rental);
 
-        Rental rental = mock(Rental.class);
-        Customer customer = mock(Customer.class);
-        rental.setCustomer(customer);
 
+//        Rental rental = mock(Rental.class);
+        Customer customer = mock(Customer.class);
+        customerRepository.save(customer);
+        rental.setCustomer(customer);
+        rentalRepository.save(rental);
+
+        Mockito
+                .when(rentalService.checkIfRentalExists(1l)).thenReturn(rental);
 
         System.out.println(rental.getCustomer());
 
