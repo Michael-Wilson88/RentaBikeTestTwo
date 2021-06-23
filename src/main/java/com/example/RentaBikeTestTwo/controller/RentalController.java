@@ -36,23 +36,21 @@ public class RentalController extends BaseController {
     @PostMapping(value = "rentals/{id}/addbike")
     public ResponseEntity<?> addBikeToRental(@PathVariable("id") long id, @Valid @RequestBody AddBikeRequest addBikeRequest) {
          return rentalService.addBikeToRental(id, addBikeRequest);
-
     }
+
     @PostMapping(value = "rentals/{id}/addcustomer")
     public ResponseEntity<?> addCustomerToRental(@PathVariable("id") long id, @Valid @RequestBody AddCustomerRequest addCustomerRequest) {
         return rentalService.addCustomerToRental(id, addCustomerRequest);
     }
+
     @PostMapping(value = "rentals/{id}/returnbike")
     public ResponseEntity<?> returnBike(@PathVariable("id") long id, @Valid @RequestBody ReturnBikeRequest returnBikeRequest) {
         return rentalService.returnBike(id, returnBikeRequest);
     }
+
     @PostMapping(value = "rentals/{id}/paybike")
     public ResponseEntity<?> payBike(@PathVariable("id") long id, @Valid @RequestBody PayBikeRequest payBikeRequest) {
         return rentalService.payBike(id, payBikeRequest);
     }
 
-//    @PostMapping(value = "rentals/{id}/removebike")
-//    public ResponseEntity<?> removeBikeFromList(@PathVariable("id") long id, @Valid @RequestBody RemoveBikeRequest removeBikeRequest){
-//     return rentalService.removeBikeFromList(id,removeBikeRequest);
-//    }
 }

@@ -2,16 +2,13 @@ package com.example.RentaBikeTestTwo.integration;
 
 
 import com.example.RentaBikeTestTwo.controller.BikeController;
-import com.example.RentaBikeTestTwo.service.BikeService;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -19,12 +16,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@WebMvcTest(BikeController.class)
 
 @AutoConfigureMockMvc(addFilters = false)
 @SpringBootTest
-//@ContextConfiguration(classes = BikeService.class)
-//@ActiveProfiles("BikeController")
 public class BikeControllerIntegrationTest {
 
 
@@ -46,7 +40,7 @@ public class BikeControllerIntegrationTest {
     }
 
     @Test
-    void whenPostRequestToAddInvalidBike_thenBadRequestResponse() throws Exception {
+    void whenPostRequestToAddEmptyBikeNumber_thenBadRequestResponse() throws Exception {
 
 
                String bike = "{" +
@@ -65,6 +59,44 @@ public class BikeControllerIntegrationTest {
                         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
     }
 
+    @Test
+    void whenPostRequestEmptyFrameNumber_thenBadRequestResponse() throws Exception {
 
+
+        String bike = "{" +
+                "   \"bikeNumber\" : \"E1\"," +
+                "   \"brand\" : \"Gazelle\"," +
+                "   \"frameNumber\" : \"\"," +
+                "   \"retailPrice\" : 1200," +
+                "   \"basePrice\" : 20.0," +
+                "   \"electric\" : true" +
+                "}";
+        mockMvc.perform(MockMvcRequestBuilders.post("/createbike")
+                .content(bike)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.frameNumber", Is.is( "Frame number is mandatory.")))
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
+    }
+
+//    @Test
+//    void whenPostRequestNoBasePrice_thenBadRequestResponse() throws Exception {
+//// TODO: 23-6-2021 wachten op antwoord stack overflow
+//
+//        String bike = "{" +
+//                "   \"bikeNumber\" : \"E1\"," +
+//                "   \"brand\" : \"Gazelle\"," +
+//                "   \"frameNumber\" : \"HA1234568\"," +
+//                "   \"retailPrice\" : 1200," +
+//                "   \"basePrice\" : , " +
+//                "   \"electric\" : true" +
+//                "}";
+//        mockMvc.perform(MockMvcRequestBuilders.post("/createbike")
+//                .content(bike)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isBadRequest())
+//                .andExpect(jsonPath("$.basePrice", Is.is( "Base price is mandatory.")))
+//                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
+//    }
 
 }
