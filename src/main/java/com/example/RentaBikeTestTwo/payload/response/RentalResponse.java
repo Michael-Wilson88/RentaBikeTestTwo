@@ -12,7 +12,6 @@ import java.util.Map;
 @JsonInclude
 public class RentalResponse {
 
-
     private Long id;
 
     @JsonIgnoreProperties(value = {"age", "phoneNumber", "emailAddress", "passportNumber", "country", "address", "rental"})

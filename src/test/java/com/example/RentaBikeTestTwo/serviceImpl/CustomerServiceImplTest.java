@@ -3,13 +3,9 @@ package com.example.RentaBikeTestTwo.serviceImpl;
 import com.example.RentaBikeTestTwo.domain.Customer;
 import com.example.RentaBikeTestTwo.exceptions.CustomerExistsException;
 import com.example.RentaBikeTestTwo.exceptions.CustomerNotFoundException;
-import com.example.RentaBikeTestTwo.exceptions.RentalNotFoundException;
 import com.example.RentaBikeTestTwo.payload.request.CustomerRequest;
-import com.example.RentaBikeTestTwo.payload.response.ErrorResponse;
 import com.example.RentaBikeTestTwo.repository.CustomerRepository;
 import com.example.RentaBikeTestTwo.service.CustomerService;
-import org.checkerframework.checker.units.qual.C;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,10 +54,13 @@ class CustomerServiceImplTest {
         Customer customer = mock(Customer.class);
 
         Throwable exception = assertThrows(CustomerNotFoundException.class, () -> customerService.getCustomerById(customer.getId()));
+
         assertEquals("Customer with id number: " + customer.getId() + ", does not exist.", exception.getMessage());
     }
+
     @Test
-    void customerIdShouldReturnCustomerInfo(){
+    void customerIdShouldReturnCustomerInfo() {
+
         Customer customer = new Customer();
         Mockito.when(customerRepository.findCustomerById(customer.getId())).thenReturn(Optional.of(customer));
 
@@ -72,7 +71,8 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void lastNameShouldReturnCustomerInfo(){
+    void lastNameShouldReturnCustomerInfo() {
+
         Customer customer = new Customer();
         Mockito.when(customerRepository.findByLastName(customer.getLastName())).thenReturn(Optional.of(customer));
 
@@ -83,9 +83,8 @@ class CustomerServiceImplTest {
 
     }
 
-
     @Test
-    void nonExistingLastNameShouldReturnError(){
+    void nonExistingLastNameShouldReturnError() {
 
        Mockito.when(customerRepository.findByLastName(customerRequest.getLastName())).thenReturn(Optional.empty());
 
@@ -94,6 +93,7 @@ class CustomerServiceImplTest {
       assertEquals("Customer van Dam does not exist.", exception.getMessage());
 
     }
+
     @Test
     void existingPhoneNumberShouldReturnError() {
 
@@ -106,8 +106,9 @@ class CustomerServiceImplTest {
                 "Customer might already be in the system.", exception.getMessage());
 
     }
+
     @Test
-    void existingEmailAddressShouldReturnError(){
+    void existingEmailAddressShouldReturnError() {
 
         Mockito.when(customerRepository.existsByEmailAddress(customerRequest.getEmailAddress())).thenReturn(true);
 
@@ -116,7 +117,6 @@ class CustomerServiceImplTest {
         assertEquals("Email address: " + customerRequest.getEmailAddress() + " is already in use." + "\r\n" +
                 "Customer might already be in the system.", exception.getMessage());
     }
-
 
     @Test
     void existingPassportNumberShouldReturnError() {
@@ -130,7 +130,8 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void createCustomerShouldReturnResponseEntity(){
+    void createCustomerShouldReturnResponseEntity() {
+
         Customer customer = new Customer();
         Mockito.when(customerRepository.existsByPhoneNumber(customerRequest.getPhoneNumber())).thenReturn(false);
         Mockito.when(customerRepository.existsByEmailAddress(customerRequest.getEmailAddress())).thenReturn(false);
@@ -141,7 +142,6 @@ class CustomerServiceImplTest {
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertEquals(("Customer "+ customer.getId() + " "+ customer.getFirstName() + " "+ customer.getLastName() + " has been created."),
                 "Customer "+ customer.getId() + " "+ customer.getFirstName() + " "+ customer.getLastName() + " has been created.");
-
     }
 
 }

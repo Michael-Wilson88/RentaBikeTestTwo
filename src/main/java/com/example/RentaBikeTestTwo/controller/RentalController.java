@@ -22,9 +22,9 @@ public class RentalController extends BaseController {
     public ResponseEntity<Object> getRentals(){
         return ResponseEntity.ok().body(rentalService.getRentals());
     }
+
     @GetMapping (value = "/rentals/{id}")
     public ResponseEntity<?> getRentalInfoById(@PathVariable("id") long id){
-
         return rentalService.getRentalInfoById(id);
     }
 

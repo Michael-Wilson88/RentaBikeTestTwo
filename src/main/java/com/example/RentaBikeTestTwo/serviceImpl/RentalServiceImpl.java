@@ -10,7 +10,6 @@ import com.example.RentaBikeTestTwo.repository.BikeRepository;
 import com.example.RentaBikeTestTwo.repository.CustomerRepository;
 import com.example.RentaBikeTestTwo.repository.RentalRepository;
 import com.example.RentaBikeTestTwo.service.RentalService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,6 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class RentalServiceImpl implements RentalService {
 
     private List<Bike> bikes = new ArrayList<>();
-
     private double rentalPrice;
 
     @Autowired
@@ -44,21 +42,21 @@ public class RentalServiceImpl implements RentalService {
 // todo: response moet normaliter in Json zijn en ik heb nu response entities, moet ik ff checken
 
     @Autowired
-    public void setRentalRepository(RentalRepository rentalRepository){
+    public void setRentalRepository(RentalRepository rentalRepository) {
         this.rentalRepository = rentalRepository;
     }
-
 
     public Collection<Rental> getRentals() {
         return rentalRepository.findAll();
     }
+
 
     public ResponseEntity<?> getRentalInfoById(long id) {
 
         Rental rental = checkIfRentalExists(id);
 
         RentalResponse rentalResponse = getRentalResponseObject(rental);
-        if (rental.getCustomer() == null){
+        if (rental.getCustomer() == null) {
             return ResponseEntity.status(404).body("No customer found, please add a customer to rental.");
         }
 
@@ -66,14 +64,14 @@ public class RentalServiceImpl implements RentalService {
     }
 
 
-    public ResponseEntity<?> createRental(RentalRequest rentalRequest){
+    public ResponseEntity<?> createRental(RentalRequest rentalRequest) {
         Rental rental = new Rental();
         rentalRepository.save(rental);
         return new ResponseEntity<>("Rental " + rental.getId() + " has been created", HttpStatus.OK );
     }
 
 
-    private RentalResponse getRentalResponseObject(Rental rental){
+    private RentalResponse getRentalResponseObject(Rental rental) {
 
         RentalResponse rentalResponse = new RentalResponse();
         rentalResponse.setCustomer(rental.getCustomer());
@@ -90,14 +88,13 @@ public class RentalServiceImpl implements RentalService {
     }
 
 
-    public Bike checkIfBikeExists(String bikeNumber){
+    public Bike checkIfBikeExists(String bikeNumber) {
 
         Optional<Bike> optionalBike = bikeRepository.findByBikeNumber(bikeNumber);
 
-        if (optionalBike.isEmpty()){
+        if (optionalBike.isEmpty()) {
             throw new BikeNotFoundException(bikeNumber);
         }
-
         return optionalBike.get();
     }
 
@@ -106,10 +103,9 @@ public class RentalServiceImpl implements RentalService {
 
         Optional<Rental> optionalRental = rentalRepository.findById(id);
 
-        if (optionalRental.isEmpty()){
+        if (optionalRental.isEmpty()) {
             throw new RentalNotFoundException(id);
         }
-
         return optionalRental.get();
     }
 
@@ -118,21 +114,20 @@ public class RentalServiceImpl implements RentalService {
 
         Optional<Customer> optionalCustomer = customerRepository.findCustomerById(id);
 
-        if (optionalCustomer.isEmpty()){
+        if (optionalCustomer.isEmpty()) {
             throw new CustomerNotFoundException(id);
         }
-
         return optionalCustomer.get();
     }
 
+
     public Bike findBikeByBikeNumberInList(List<Bike> bikes, String bikeNumber) {
 
-        for (Bike bike : bikes){
-            if (bike.getBikeNumber().equals(bikeNumber)){
+        for (Bike bike : bikes) {
+            if (bike.getBikeNumber().equals(bikeNumber)) {
                 return bike;
             }
         }
-
         throw new BikeNotFoundException(bikeNumber);
     }
 
@@ -170,7 +165,6 @@ public class RentalServiceImpl implements RentalService {
         long rentalDays = rentalPeriod.getDays();
         bike.setRentalDays(rentalDays);
 
-
         if (bike.getRentalDays() <= 0) {
           throw new IncorrectDateException();
         }
@@ -178,7 +172,7 @@ public class RentalServiceImpl implements RentalService {
         calculatePrice(bike);
         bikes = rental.getBikes();
 
-        if (!bikes.contains(bike)){
+        if (!bikes.contains(bike)) {
             bikes.add(bike);
             rental.setBikes(bikes);
             bike.setReturnDate(returnDate);
@@ -188,7 +182,7 @@ public class RentalServiceImpl implements RentalService {
             rentalRepository.save(rental);
         }
 
-        else if (bikes.contains(bike)){
+        else if (bikes.contains(bike)) {
           throw new DuplicateBikeException(bike);
         }
 
@@ -197,11 +191,12 @@ public class RentalServiceImpl implements RentalService {
 
         if (rentalDays == 1) {
            return ResponseEntity.ok("Bike " + bike.getBikeNumber() + " added for " + rentalDays + " day, at the cost of: €" + priceFormat);
-        } else return
+        }  else return
             ResponseEntity.ok("Bike " + bike.getBikeNumber() + " added for " + rentalDays + " days, at the cost of: €" + priceFormat);
     }
 
-    public ResponseEntity<?> payBike(long id, PayBikeRequest payBikeRequest){
+
+    public ResponseEntity<?> payBike(long id, PayBikeRequest payBikeRequest) {
 
         Rental rental = checkIfRentalExists(id);
         Bike bike = checkIfBikeExists(payBikeRequest.getBikeNumber());
@@ -219,13 +214,13 @@ public class RentalServiceImpl implements RentalService {
 
         Rental rental = checkIfRentalExists(id);
 
-        if(bikes.isEmpty()){
+        if(bikes.isEmpty()) {
             return ResponseEntity.status(404).body("Bike list is empty.");
         }
 
         bikes = rental.getBikes();
         Bike bike = findBikeByBikeNumberInList(bikes, returnBikeRequest.getBikeNumber());
-        if (!bikes.contains(bike)){
+        if (!bikes.contains(bike)) {
             return ResponseEntity.status(404).body("This bike is not in this list.");
         }
 
@@ -234,7 +229,7 @@ public class RentalServiceImpl implements RentalService {
 
         if (!bike.getReturnDate().equals(localDate) && bikes.contains(bike)) {
             bike.setRentalDays(overdue);
-            if (overdue <= -1){
+            if (overdue <= -1) {
                 return ResponseEntity.status(400).body("Bike is too early, further action required.");
             }
             else
@@ -254,45 +249,47 @@ public class RentalServiceImpl implements RentalService {
         return ResponseEntity.status(400).body("Error");
     }
 
-    public double calculatePrice(Bike bike){
+
+    public double calculatePrice(Bike bike) {
 
 //         rentalprice= kan ik inkorten door eventueel verwijderen e vervangen door return
 //        zo gaat die niet alle ifs af
 
        long rentalDays = bike.getRentalDays();
-        if (rentalDays == 1){
-            rentalPrice = bike.getBasePrice() * 1.25;
+
+        if (rentalDays == 1) {
+            return  rentalPrice = bike.getBasePrice() * 1.25;
         }
-        if (rentalDays == 2){
-            rentalPrice = bike.getBasePrice() * 2.25;
+        if (rentalDays == 2) {
+            return rentalPrice = bike.getBasePrice() * 2.25;
         }
-        if (bike.isElectric() && rentalDays >= 3){
-            rentalPrice = bike.getBasePrice() + (rentalDays * 15);
+        if (bike.isElectric() && rentalDays >= 3) {
+           return rentalPrice = bike.getBasePrice() + (rentalDays * 15);
         }
-        else if (!bike.isElectric() && rentalDays >= 3){
-            rentalPrice = bike.getBasePrice() + (rentalDays * 7.5);
+        else if (!bike.isElectric() && rentalDays >= 3) {
+           return rentalPrice = bike.getBasePrice() + (rentalDays * 7.5);
         }
-        return rentalPrice;
+        return -1;
     }
 
 
-    public ResponseEntity<?> addCustomerToRental(long id, AddCustomerRequest addCustomerRequest){
+    public ResponseEntity<?> addCustomerToRental(long id, AddCustomerRequest addCustomerRequest) {
 
         Customer customer = checkIfCustomerExists(addCustomerRequest.getId());
         Rental rental = checkIfRentalExists(id);
 
-        if (rental.getCustomer() == null){
+        if (rental.getCustomer() == null) {
                 rental.setCustomer(customer);
                 rentalRepository.save(rental);
                 return ResponseEntity.ok("Customer " + customer.getId() + " "
                         + customer.getFirstName() + " " + customer.getLastName()
                         + " added to rental " + rental.getId());
             }
-            if (rental.getCustomer().getId() == addCustomerRequest.getId()){
+            if (rental.getCustomer().getId() == addCustomerRequest.getId()) {
                 return ResponseEntity.status(400).body("Customer " + rental.getCustomer().getFirstName() + " " +
                         rental.getCustomer().getLastName() + " is already added to this rental.");
             }
-            if (rental.getCustomer().getId() != addCustomerRequest.getId()){
+            if (rental.getCustomer().getId() != addCustomerRequest.getId()) {
                 return ResponseEntity.status(400).body("This rental is already assigned to " +
                         rental.getCustomer().getFirstName() + " " + rental.getCustomer().getLastName() +
                         ". Try using a different rental id.");

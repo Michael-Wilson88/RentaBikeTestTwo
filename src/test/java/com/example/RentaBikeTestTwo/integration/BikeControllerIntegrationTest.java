@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class BikeControllerIntegrationTest {
 
-
     @Autowired
     public BikeController bikeController;
 
@@ -42,7 +41,6 @@ public class BikeControllerIntegrationTest {
     @Test
     void whenPostRequestToAddEmptyBikeNumber_thenBadRequestResponse() throws Exception {
 
-
                String bike = "{" +
                 "   \"bikeNumber\" : \"\"," +
                 "   \"brand\" : \"Gazelle\"," +
@@ -61,7 +59,6 @@ public class BikeControllerIntegrationTest {
 
     @Test
     void whenPostRequestEmptyFrameNumber_thenBadRequestResponse() throws Exception {
-
 
         String bike = "{" +
                 "   \"bikeNumber\" : \"E1\"," +

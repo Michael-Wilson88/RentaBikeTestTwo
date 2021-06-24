@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
     AuthorizationService authorizationService;
 
-    @PostMapping("/signin")
+    @PostMapping("/api/signin")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
         return authorizationService.authenticateUser(loginRequest);
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/api/signup")
     public ResponseEntity<MessageResponse> registerUser(@RequestBody SignupRequest signUpRequest) {
         return authorizationService.registerUser(signUpRequest);
     }

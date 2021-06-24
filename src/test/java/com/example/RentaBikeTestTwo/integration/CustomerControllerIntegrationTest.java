@@ -38,7 +38,6 @@ public class CustomerControllerIntegrationTest {
     @Test
     void whenPostRequestToAddEmptyFirstName_thenBadRequestResponse() throws Exception {
 
-
         String customer = "{" +
                 "   \"firstName\" : \"\"," +
                 "   \"lastName\" : \"van Dam\"," +
@@ -59,7 +58,6 @@ public class CustomerControllerIntegrationTest {
 
     @Test
     void whenPostRequestToAddEmptyLastName_thenBadRequestResponse() throws Exception {
-
 
         String customer = "{" +
                 "   \"firstName\" : \"Kees\"," +
@@ -103,7 +101,6 @@ public class CustomerControllerIntegrationTest {
 
     @Test
     void whenPostRequestToAddEmptyPassportNumber_thenBadRequestResponse() throws Exception {
-
 
         String customer = "{" +
                 "   \"firstName\" : \"Kees\"," +

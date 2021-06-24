@@ -1,7 +1,9 @@
 package com.example.RentaBikeTestTwo.domain;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Entity
@@ -11,36 +13,15 @@ public class Bike {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @NotNull
     private String brand;
-
-    @Column
-    @NotNull
     private String frameNumber;
-
-    @Column
     private long retailPrice;
-
-    @Column
-    @NotNull
     private String bikeNumber;
-
-    @Column
-    @NotNull
     private boolean isElectric;
-
-    @Column
     private boolean isRented;
-
     private long rentalDays;
-
-
-    @NotNull
     private double basePrice;
-
     private double rentalPrice;
-
     private LocalDate returnDate;
 
 

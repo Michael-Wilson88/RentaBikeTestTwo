@@ -6,10 +6,8 @@ import javax.validation.constraints.NotBlank;
 public class AddBikeRequest {
     @NotBlank(message = "Bike number  is mandatory")
     private String bikeNumber;
-
     @NotBlank(message = "BeginDate is mandatory")
     private CharSequence beginDate;
-
     @NotBlank(message = "EndDate is mandatory")
     private CharSequence endDate;
 

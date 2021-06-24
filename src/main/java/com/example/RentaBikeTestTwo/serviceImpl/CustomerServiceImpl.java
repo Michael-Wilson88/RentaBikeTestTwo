@@ -24,19 +24,20 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public ResponseEntity<?> createCustomer(CustomerRequest customerRequest){
+
+    public ResponseEntity<?> createCustomer(CustomerRequest customerRequest) {
 
         Customer customer = new Customer();
 
-        if (customerRepository.existsByPhoneNumber(customerRequest.getPhoneNumber())){
+        if (customerRepository.existsByPhoneNumber(customerRequest.getPhoneNumber())) {
            throw new CustomerExistsException("Phone number: 0" + customerRequest.getPhoneNumber() + " is already in use." + "\r\n" +
                    "Customer might already be in the system.");
         }
-        if (customerRepository.existsByEmailAddress(customerRequest.getEmailAddress())){
+        if (customerRepository.existsByEmailAddress(customerRequest.getEmailAddress())) {
             throw new CustomerExistsException("Email address: " + customerRequest.getEmailAddress() + " is already in use." + "\r\n" +
                   "Customer might already be in the system.");
         }
-        if (customerRepository.existsByPassportNumber(customerRequest.getPassportNumber())){
+        if (customerRepository.existsByPassportNumber(customerRequest.getPassportNumber())) {
             throw new CustomerExistsException("Passport number: " + customerRequest.getPassportNumber() + " is already in use." + "\r\n" +
                     "Customer might already be in the system.");
         }
@@ -55,14 +56,16 @@ public class CustomerServiceImpl implements CustomerService {
         return new ResponseEntity<>("Customer "+ customer.getId() + " "+ customer.getFirstName() + " "+ customer.getLastName() + " has been created.", HttpStatus.OK );
     }
 
+
     public ResponseEntity<?> getCustomers(){
         return ResponseEntity.ok(customerRepository.findAll());
     }
 
-    public ResponseEntity<?> getCustomerById(Long id){
+
+    public ResponseEntity<?> getCustomerById(Long id) {
         Optional<Customer> optionalCustomer = customerRepository.findCustomerById(id);
 
-        if (optionalCustomer.isEmpty()){
+        if (optionalCustomer.isEmpty()) {
           throw new CustomerNotFoundException(id);
         }
         Customer customer = optionalCustomer.get();
@@ -71,11 +74,12 @@ public class CustomerServiceImpl implements CustomerService {
         return ResponseEntity.ok(customerResponse);
     }
 
-    public ResponseEntity<?> getCustomerByLastName(String lastName){
+
+    public ResponseEntity<?> getCustomerByLastName(String lastName) {
 
         Optional<Customer> optionalCustomer = customerRepository.findByLastName(lastName);
 
-        if (optionalCustomer.isEmpty()){
+        if (optionalCustomer.isEmpty()) {
             throw new CustomerNotFoundException(lastName);
         }
         Customer customer = optionalCustomer.get();
@@ -84,11 +88,17 @@ public class CustomerServiceImpl implements CustomerService {
         return ResponseEntity.ok(customerResponse);
     }
 
-    public CustomerResponse createResponseObject(Customer customer){
+
+    public CustomerResponse createResponseObject(Customer customer) {
         CustomerResponse customerResponse = new CustomerResponse(customer.getId(),
-                customer.getFirstName(), customer.getLastName(), customer.getAge(),
-                customer.getPhoneNumber(), customer.getEmailAddress(),
-                customer.getPassportNumber(), customer.getCountry(), customer.getAddress());
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getAge(),
+                customer.getPhoneNumber(),
+                customer.getEmailAddress(),
+                customer.getPassportNumber(),
+                customer.getCountry(),
+                customer.getAddress());
 
         customerResponse.setFirstName(customer.getFirstName());
         customerResponse.setLastName(customer.getLastName());
@@ -101,6 +111,5 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customerResponse;
     }
-
 
 }

@@ -1,7 +1,6 @@
 package com.example.RentaBikeTestTwo.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Customer {
@@ -10,35 +9,13 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
-    @Column
     private String firstName;
-
-    @NotNull
-    @Column
     private String lastName;
-
-    @NotNull
-    @Column
     private int age;
-
-    @NotNull
-    @Column
     private long phoneNumber;
-
-    @NotNull
-    @Column
     private String emailAddress;
-
-    @NotNull
-    @Column
     private String passportNumber;
-
-    @NotNull
-    @Column
     private String country;
-
-    @Column
     private String address;
 
     @OneToOne

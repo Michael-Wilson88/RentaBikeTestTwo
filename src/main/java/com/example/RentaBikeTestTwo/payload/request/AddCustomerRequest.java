@@ -3,9 +3,7 @@ package com.example.RentaBikeTestTwo.payload.request;
 public class AddCustomerRequest {
 
     private Long id;
-
     private String firstName;
-
     private String lastName;
 
     public Long getId() {

@@ -40,8 +40,6 @@ public class RentalControllerIntegrationTest {
     @Test
     void whenPostRequestEmptyBikeNumber_thenBadRequestResponse() throws Exception {
 
-
-
         String addBikeRequest = "{" +
                 "   \"bikeNumber\" : \"E1\"," +
                 "   \"beginDate\" : \"23-06-2021\"," +

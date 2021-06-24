@@ -16,13 +16,10 @@ public class Rental {
     @OneToOne
     @JsonIgnoreProperties(value = {"age", "phoneNumber", "emailAddress", "passportNumber", "country", "address", "rental"})
     public Customer customer;
-
     @OneToMany
     @JsonIgnoreProperties(value =  {"id","brand", "frameNumber", "retailPrice", "basePrice", "rented", "returnDate", "rentalDays", "electric", "rentalPrice"})
     public List<Bike> bikes;
 
-//    @ManyToOne
-//    public Bike bike;
     @JsonIgnore
     private String bikeNumber;
     @JsonIgnore

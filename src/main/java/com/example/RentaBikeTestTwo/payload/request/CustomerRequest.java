@@ -1,5 +1,6 @@
 package com.example.RentaBikeTestTwo.payload.request;
 
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 

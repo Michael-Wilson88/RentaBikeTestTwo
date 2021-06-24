@@ -1,8 +1,10 @@
 package com.example.RentaBikeTestTwo.payload.request;
 
+
 import javax.validation.constraints.NotBlank;
 
 public class PayBikeRequest {
+
     @NotBlank(message = "Bikenumber  is mandatory")
     private String bikeNumber;
 

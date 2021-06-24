@@ -1,11 +1,13 @@
 package com.example.RentaBikeTestTwo.payload.request;
 
+
 import com.example.RentaBikeTestTwo.domain.Bike;
 import com.example.RentaBikeTestTwo.domain.Customer;
 
 import java.util.List;
 
 public class RentalRequest {
+
     private Customer customer;
     private List<Bike> bikes;
     private double rentalPrice;
