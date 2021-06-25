@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.DateTimeException;
 
 @RestController
 public class RentalController extends BaseController {
@@ -29,12 +30,13 @@ public class RentalController extends BaseController {
     }
 
     @PostMapping(value = "/createrental")
-    public ResponseEntity<?> createRental(@Valid @RequestBody RentalRequest rentalRequest) {
-        return rentalService.createRental(rentalRequest);
+    public ResponseEntity<?> createRental() {
+        return rentalService.createRental();
     }
 
     @PostMapping(value = "rentals/{id}/addbike")
     public ResponseEntity<?> addBikeToRental(@PathVariable("id") long id, @Valid @RequestBody AddBikeRequest addBikeRequest) {
+
          return rentalService.addBikeToRental(id, addBikeRequest);
     }
 

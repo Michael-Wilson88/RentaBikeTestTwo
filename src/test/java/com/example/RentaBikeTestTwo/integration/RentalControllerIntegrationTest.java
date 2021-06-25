@@ -37,20 +37,20 @@ public class RentalControllerIntegrationTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void whenPostRequestEmptyBikeNumber_thenBadRequestResponse() throws Exception {
-
-        String addBikeRequest = "{" +
-                "   \"bikeNumber\" : \"E1\"," +
-                "   \"beginDate\" : \"23-06-2021\"," +
-                "   \"endDate\" : \"24-06-2021\" " +
-                "}";
-        mockMvc.perform(MockMvcRequestBuilders.post("/rentals/\"id\"/addbike")
-                .content(addBikeRequest)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.bikeNumber", Is.is( "Bike number is mandatory.")))
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
-    }
+//    @Test
+//    void whenPostRequestEmptyBikeNumber_thenBadRequestResponse() throws Exception {
+//
+//        String addBikeRequest = "{" +
+//                "   \"bikeNumber\" : \"E1\"," +
+//                "   \"beginDate\" : \"23-06-2021\"," +
+//                "   \"endDate\" : \"24-06-2021\" " +
+//                "}";
+//        mockMvc.perform(MockMvcRequestBuilders.post("/rentals/\"id\"/addbike")
+//                .content(addBikeRequest)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isBadRequest())
+//                .andExpect(jsonPath("$.bikeNumber", Is.is( "Bike number is mandatory.")))
+//                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
+//    }
 
 }

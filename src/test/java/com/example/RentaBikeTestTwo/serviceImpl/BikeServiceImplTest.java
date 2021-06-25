@@ -104,6 +104,21 @@ class BikeServiceImplTest {
         Assertions.assertEquals((new ResponseEntity<>("Bike " + bike.getBikeNumber() + " has been created", HttpStatus.OK )) ,new ResponseEntity<>("Bike " + bike.getBikeNumber() + " has been created", HttpStatus.OK ) );
 
     }
+
+    @Test
+    void deleteBikeShouldReturnCorrectResponseEntity() {
+
+        String bikeNumber = "E1";
+
+        Mockito.when(bikeRepository.existsByBikeNumber(bikeNumber)).thenReturn(true);
+
+        ResponseEntity<?> responseEntity = bikeService.deleteBike(bikeNumber);
+
+        Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
+        Assertions.assertEquals(("Bike " + bikeNumber + " deleted."), ("Bike " + bikeNumber + " deleted."));
+    }
+
+
 }
 //        String bikeNumber = "T1";
 //

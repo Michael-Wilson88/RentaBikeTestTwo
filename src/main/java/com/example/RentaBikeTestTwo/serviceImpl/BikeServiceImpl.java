@@ -22,6 +22,14 @@ public class BikeServiceImpl implements BikeService {
         this.bikeRepository = bikeRepository;
     }
 
+    @Override
+    public ResponseEntity<?> deleteBike(String bikeNumber) {
+        if (!bikeRepository.existsByBikeNumber(bikeNumber)) {
+            throw new BikeNotFoundException(bikeNumber);
+        }
+        bikeRepository.deleteByBikeNumber(bikeNumber);
+        return new ResponseEntity<>("Bike " + bikeNumber + " deleted.", HttpStatus.OK);
+    }
 
     public ResponseEntity<?> createBike(BikeRequest bikeRequest) {
 
@@ -50,6 +58,9 @@ public class BikeServiceImpl implements BikeService {
 
     @Override
     public ResponseEntity<?> getBikes() {
+        if (bikeRepository.findAll().isEmpty()) {
+            return ResponseEntity.status(400).body("No Bikes found.");
+        }
         return ResponseEntity.ok(bikeRepository.findAll());
     }
 

@@ -7,4 +7,5 @@ public interface BikeService {
     ResponseEntity<?>createBike(BikeRequest bikeRequest);
     ResponseEntity<?> getBikes();
     ResponseEntity<?> getBikeByBikeNumber(String bikeNumber);
+    ResponseEntity<?> deleteBike(String bikeNumber);
 }

@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -52,6 +53,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
 
+
+
     public ResponseEntity<?> getRentalInfoById(long id) {
 
         Rental rental = checkIfRentalExists(id);
@@ -65,7 +68,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
 
-    public ResponseEntity<?> createRental(RentalRequest rentalRequest) {
+    public ResponseEntity<?> createRental() {
 
         Rental rental = new Rental();
         rentalRepository.save(rental);

@@ -6,13 +6,14 @@ import com.example.RentaBikeTestTwo.domain.Rental;
 import com.example.RentaBikeTestTwo.payload.request.*;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
 public interface RentalService {
     Collection<Rental> getRentals();
     ResponseEntity<?> getRentalInfoById(long id);
-    ResponseEntity<?> createRental(RentalRequest rentalRequest);
+    ResponseEntity<?> createRental();
     ResponseEntity<?> addBikeToRental(long id, AddBikeRequest addBikeRequest);
     ResponseEntity<?> addCustomerToRental(long id, AddCustomerRequest addCustomerRequest);
     ResponseEntity<?> returnBike(long id, ReturnBikeRequest returnBikeRequest);
@@ -22,6 +23,8 @@ public interface RentalService {
     Rental checkIfRentalExists(long id);
     Bike checkIfBikeExists(String bikeNumber);
     Customer checkIfCustomerExists(long id);
+    LocalDate startDateFormatter(AddBikeRequest addBikeRequest);
+    LocalDate returnDateFormatter(AddBikeRequest addBikeRequest);
 
 
     // ResponseEntity<?> removeBikeFromList(long id, RemoveBikeRequest removeBikeRequest);

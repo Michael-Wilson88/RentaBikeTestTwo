@@ -25,13 +25,16 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.http.HttpStatus;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 //alle atributen private
 //alle methodes public getters and setters etc
@@ -58,15 +61,6 @@ class RentalServiceImplTest {
     @Mock
     private RentalResponse rentalResponse;
 
-    private AddCustomerRequest addCustomerRequest;
-
-    private PayBikeRequest payBikeRequest;
-
-    private ReturnBikeRequest returnBikeRequest;
-
-//    todo: testen op endpoints
-//    todo: checken of ik boolean methode in rental repository moet aanmaken
-//    todo: check hoe nick het doet
 
     @BeforeEach
     void setup() {
@@ -196,18 +190,29 @@ class RentalServiceImplTest {
     }
 
     @Test
-    void calculatePriceShouldReturnCorrectPrice() {
+    void calculatePriceElectricBikeShouldReturnCorrectPrice() {
 
         Bike testBike = new Bike("Gazelle", "H234", 1200, "E1", true, 20);
         testBike.setRentalDays(5);
 
         rentalService.calculatePrice(testBike);
 
-        assertEquals(57.5, testBike.getBasePrice() + (testBike.getRentalDays() * 7.5));
+        assertEquals(95.0, testBike.getBasePrice() + (testBike.getRentalDays() * 15));
     }
 
     @Test
-    void rentalIdShouldReturnError(){
+    void calculatePriceNormalBikeShouldReturnCorrectPrice() {
+
+        Bike testBike = new Bike("Gazelle", "H234", 1200, "E1", false, 10);
+        testBike.setRentalDays(5);
+
+        rentalService.calculatePrice(testBike);
+
+        assertEquals(47.5, testBike.getBasePrice() + (testBike.getRentalDays() * 7.5));
+    }
+
+    @Test
+    void rentalIdShouldReturnError() {
         Rental testRental = new Rental();
         testRental.setId(1L);
         rentalRepository.save(testRental);
@@ -219,23 +224,34 @@ class RentalServiceImplTest {
         assertEquals("Rental nr: " + testRental.getId() + " does not exist.", exception.getMessage());
     }
 
+    @Test
+    void createRentalShouldReturnCorrectResponse() {
 
-//    @Test
-//    void rentalIdShouldReturnRental(){
-//        Rental testRental = new Rental();
-//        testRental.setId(1L);
-//        rentalRepository.save(testRental);
-//
-//        when(rentalRepository.save(Mockito.any(Rental.class))).thenReturn(rental);
-//
-//        ResponseEntity<?> responseEntity = rentalService.getRentalInfoById(testRental.getId());
-//
-//        Assertions.assertEquals(rentalResponse, rentalResponse);
-////        Assertions.assertTrue(responseEntity.getBody() instanceof ErrorResponse);
-////        Assertions.assertEquals(1, ((ErrorResponse) responseEntity.getBody()).getErrors().size());
-////
-////        Assertions.assertTrue(((((ErrorResponse) responseEntity.getBody()).getErrors()).containsKey("Rental id")));
-////        Assertions.assertEquals("Rental nr: " + id + " does not exist.", ((ErrorResponse) responseEntity.getBody()).getErrors().get("Rental id"));
-//
-//    }
+    rentalService.createRental();
+
+    assertNotNull(rentalRepository);
+    assertEquals("Rental " + rental.getId() + " has been created", "Rental " + rental.getId() + " has been created" );
+    }
+
+    @Test
+    void wrongStartDateEntryShouldReturnException() {
+
+        AddBikeRequest addBikeRequest = new AddBikeRequest();
+        addBikeRequest.setBikeNumber("E1");
+        addBikeRequest.setBeginDate("01-MAY-2020");
+
+        Throwable exception = assertThrows(DateTimeException.class, () -> rentalService.startDateFormatter(addBikeRequest));
+        assertEquals("Text '01-MAY-2020' could not be parsed at index 3", exception.getMessage());
+    }
+
+    @Test
+    void wrongReturnDateEntryShouldReturnException() {
+
+        AddBikeRequest addBikeRequest = new AddBikeRequest();
+        addBikeRequest.setBikeNumber("E1");
+        addBikeRequest.setEndDate("02-MAY-2020");
+
+        Throwable exception = assertThrows(DateTimeException.class, () -> rentalService.returnDateFormatter(addBikeRequest));
+        assertEquals("Text '02-MAY-2020' could not be parsed at index 3", exception.getMessage());
+    }
 }

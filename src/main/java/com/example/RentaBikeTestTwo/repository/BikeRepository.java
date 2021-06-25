@@ -12,5 +12,6 @@ public interface BikeRepository extends JpaRepository<Bike, Long> {
     boolean existsByFrameNumber(String frameNumber);
     boolean existsByBikeNumber(String bikeNumber);
     Optional<Bike> findByBikeNumber(String bikeNumber);
+    void deleteByBikeNumber(String bikeNumber);
 
 }
