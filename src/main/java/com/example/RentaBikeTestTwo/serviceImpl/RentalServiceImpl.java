@@ -40,6 +40,7 @@ public class RentalServiceImpl implements RentalService {
     private CustomerRepository customerRepository;
 
 // todo: response moet normaliter in Json zijn en ik heb nu response entities, moet ik ff checken
+// TODO: 25-6-2021 dateformatter test , createrental test en calculate price
 
     @Autowired
     public void setRentalRepository(RentalRepository rentalRepository) {
@@ -65,6 +66,7 @@ public class RentalServiceImpl implements RentalService {
 
 
     public ResponseEntity<?> createRental(RentalRequest rentalRequest) {
+
         Rental rental = new Rental();
         rentalRepository.save(rental);
         return new ResponseEntity<>("Rental " + rental.getId() + " has been created", HttpStatus.OK );
@@ -251,9 +253,6 @@ public class RentalServiceImpl implements RentalService {
 
 
     public double calculatePrice(Bike bike) {
-
-//         rentalprice= kan ik inkorten door eventueel verwijderen e vervangen door return
-//        zo gaat die niet alle ifs af
 
        long rentalDays = bike.getRentalDays();
 
