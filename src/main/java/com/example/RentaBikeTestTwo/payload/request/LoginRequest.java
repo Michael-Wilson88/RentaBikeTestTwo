@@ -1,8 +1,13 @@
 package com.example.RentaBikeTestTwo.payload.request;
 
+import javax.validation.constraints.NotBlank;
+
 public class LoginRequest {
 
+    @NotBlank(message = "Username is mandatory.")
     private String username;
+
+
     private String password;
 
     public String getUsername() {

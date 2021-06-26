@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.ConstraintViolationException;
 import java.time.DateTimeException;
 
 @RestController
@@ -49,5 +50,10 @@ public class ExceptionController {
     @ExceptionHandler(value = DateTimeException.class)
     public ResponseEntity<Object> exception(DateTimeException dateTimeException) {
         return ResponseEntity.status(400).body(dateTimeException.getMessage());
+    }
+
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ResponseEntity<Object> exception(ConstraintViolationException constraintViolationException) {
+        return ResponseEntity.status(400).body(constraintViolationException.getMessage());
     }
 }

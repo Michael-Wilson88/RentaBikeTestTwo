@@ -1,8 +1,9 @@
 # Rent a Bike Verhuur applicatie.
 
 Dit is de Rent a Bike verhuur applicatie waar, vanzelfsprekend, fietsen mee verhuurd kunnen worden.
-De applicatie rekent vanzelf de prijs uit op basis van de aantal verhuurdagen en wat voor type fiets het is.
-Een elektrische fiets is hierbij uitteraard duurder dan een niet elektrische fiets. 
+Het is gemaakt voor medewerkers van de fietsverhuur, dus niet voor reserveringen van klanten etc.
+De applicatie rekent vanzelf de prijs uit op basis van het aantal verhuurdagen en wat voor type fiets het is.
+Een elektrische fiets is hierbij uiteraard duurder dan een niet elektrische fiets. 
 De gebruiker kan zelf fietsen en klanten aan de database toevoegen om ze vervolgens met elkaar te koppelen via een Rental.
 
 
