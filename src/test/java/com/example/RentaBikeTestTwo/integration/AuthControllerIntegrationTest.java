@@ -67,7 +67,7 @@ public class AuthControllerIntegrationTest {
                 .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.password", Is.is( "\"User registered successfully!\"")))
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
-        Assertions.assertEquals("User registered succesfully!", "User registered succesfully!");
+        Assertions.assertEquals("User registered successfully!", "User registered successfully!");
     }
 
 }
