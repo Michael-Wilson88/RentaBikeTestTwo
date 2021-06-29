@@ -216,7 +216,9 @@ class RentalServiceImplTest {
         Rental testRental = new Rental();
         testRental.setId(1L);
         rentalRepository.save(testRental);
+
     // klopt niet want hij zou het moeten doen
+
         Throwable exception = assertThrows(RentalNotFoundException.class, () -> rentalService.getRentalInfoById(testRental.getId()));
 
         System.out.println(testRental.getId());
