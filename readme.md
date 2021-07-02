@@ -3,40 +3,48 @@
 Dit is de Rent a Bike verhuur applicatie waar, vanzelfsprekend, fietsen mee verhuurd kunnen worden.
 Het is gemaakt voor medewerkers van de fietsverhuur, dus niet voor reserveringen van klanten etc.
 De applicatie rekent vanzelf de prijs uit op basis van het aantal verhuurdagen en wat voor type fiets het is.
-Een elektrische fiets is hierbij uiteraard duurder dan een niet elektrische fiets. 
+Een elektrische fiets is hierbij uiteraard duurder dan een gewone fiets. 
 De gebruiker kan zelf fietsen en klanten aan de database toevoegen om ze vervolgens met elkaar te koppelen via een Rental.
 
 
 # Uitleg.
-De gebruiker maakt als eerste fietsen aan die hij/zij vervolgens kunt verhuren. Deze fietsen hebben allemaal een fietsnummer die de gebruiker zelf
-kan bepalen. Als voorbeeld heb ik "E1" genomen, E omdat de fiets elektrisch is en 1 omdat het de eerste is. Op de fiets wordt een sticker geplakt met het juiste
-nummer zodat iedereen in de verhuur kan zien om welke fiets het gaat.
-Als er een klant komt om de fiets te huren dan worden zijn/haar gegevens ingevoerd en zo word het object "Customer" aangemaakt.
-Vervolgens kan de gebruiker een Rental aanmaken die leeg is. Hier kan een Customer aan worden toegevoegd en meerdere fietsen. 
-Het is namelijk makkelijker om een Customer meerdere fietsen te kunnen verhuren i.v.m. families etc, maar ook zal het gebruiksvriendelijker zijn om niet voor
-elke verhuurde fiets een Customer aan te maken. Dit kost veel tijd en het is niet rendabel.
-De verhuurder kan de datum opgeven van uitgifte en de datum dat de fiets weer ingeleverd moet worden. Het systeem berekent vervolgens de juiste prijs
-op basis van de hoeveelheid dagen en type fiets. Als de fietsen worden ingeleverd wordt er gecheckt of deze eventueel te laat zijn ingeleverd en of er dan nog
-extra betaalt dient te worden. Het kan ook zo zijn dat door omstandigheden de fiets te vroeg ingeleverd wordt en dan zal het systeem een foutmelding geven.
-De bedrijfsleider/manager/baas zal dan zelf bepalen wat voor actie ondernomen wordt. 
+De gebruiker maakt als eerste fietsen aan die hij/zij vervolgens kunt gaan verhuren. 
+Deze fietsen hebben allemaal en fietsnummer die de gebruiker zelf kan bepalen. 
+Als voorbeeld heb ik “E1” genomen, E omdat de fiets elektrisch is en 1 omdat het de eerste is. 
+Op de fiets wordt een sticker geplakt met het juiste nummer zodat iedereen in de verhuur kan zien om welke fiets het gaat.
 
-// archive ipv delete bike
+Ik heb voor datatype String gekozen om functionele redenen. De belangrijkste reden is de grootte van de voorraad fietsen die de verhuurder heeft. 
+Als dat aantal hoog ligt dan is het gemakkelijker om te categoriseren met behulp van een letter, anders worden de getallen te hoog om 
+overzichtelijk op de fiets te plakken. Tevens bestaat er de kans dat een sticker loslaat waardoor het lastiger zal zijn om de juiste fiets op 
+te zoeken. 
+
+Wanneer er een klant komt om een fiets te huren dan worden zijn/haar gegevens ingevoerd en zo word het object “Customer” aangemaakt.
+Vervolgens kan de gebruiker een Rental aanmaken die leeg is. Hier kan een Customer aan worden toegevoegd en het aantal 
+fietsen die de klant wilt huren. De Rental kan meerdere fietsen bevatten om nutteloze administratie te voorkomen.
+Denk aan families met kinderen en groepen waarbij het gemakkelijker is om meerdere fietsen op naam van 1 persoon te zetten. 
+Dit is gebruiksvriendelijker en sneller in het werkproces, waardoor het uiteindelijk minder tijd kost en rendabeler wordt.
+De verhuurder kan de datum opgeven van uitgifte en de datum dat de fiets weer ingeleverd dient te worden. 
+Het systeem berekent vervolgens de juiste prijs uit op basis van de hoeveelheid dagen en het type fiets. 
+Als de fietsen worden ingeleverd, wordt er gecheckt of deze eventueel te laat zijn ingeleverd en of er dan nog extra betaald
+dient te worden. Het kan ook zo zijn dat door omstandigheden de fiets te vroeg ingeleverd word, hier zal een foutmelding getoond worden.
+De leidinggevende kan dan zelf bepalen wat voor actie er ondernomen word.
+
 
 # Json data format
 
 Ik heb mijn server ingesteld op Localhost:8090
 
-localhost:8090/api/auth/signup
+localhost:8090/auth/signup
 Om in te loggen deze link en post de volgende Json in de body mee:
 
 Gebruiker met userrol:
 
 {
 
-    "username": "user",
+    "username" : "user",
     "email" : "user@user.com",
     "password" : "123456",
-    "role": ["user"]
+    "role" : ["user"]
     
 }
 
@@ -44,10 +52,10 @@ Gebruiker met mod- en userrol:
 
 {
 
-    "username": "mod",
+    "username" : "mod",
     "email" : "mod@mod.com",
     "password" : "123456",
-    "role": ["mod", "user"]
+    "role" : ["mod", "user"]
     
 }
 
@@ -56,10 +64,10 @@ Gebruiker met adminrol:
 
 {
 
-    "username": "admin",
+    "username" : "admin",
     "email" : "admin@admin.com",
     "password" : "123456",
-    "role": ["admin"]
+    "role" : ["admin"]
     
 }
 
@@ -68,22 +76,22 @@ Gebruiker met alledrie de rollen:
 
 {
 
-    "username": "superadmin",
+    "username" : "superadmin",
     "email" : "superadmin@admin.com",
     "password" : "123456",
-    "role": ["admin", "mod", "user"]
+    "role" : ["admin", "mod", "user"]
     
 }
 
 Wanneer je inlogt geeft de backend-server een Json webtoken mee. Bewaar deze, want deze moet je meesturen.
-Praat via Postman met de volgende link : localhost:8090/api/auth/signin     en geef de volgende Json in de body mee:
+Praat via Postman met de volgende link : localhost:8090/auth/signin     en geef de volgende Json in de body mee:
 
 Inloggen User:
 
 {
 
-    "username":"user",
-    "password":"123456"
+    "username" : "user",
+    "password" : "123456"
     
 }
 
@@ -92,8 +100,8 @@ Inloggen mod:
 
 {
 
-    "username":"mod",
-    "password":"123456"
+    "username" : "mod",
+    "password" : "123456"
     
 }
 
@@ -102,8 +110,8 @@ Inloggen admin:
 
 {
 
-    "username":"admin",
-    "password":"123456"
+    "username" : "admin",
+    "password" : "123456"
     
 }
 
@@ -114,15 +122,15 @@ Voeg een header Authorization toe en zet daarin:
 - Acces token 
 
 De volgende resultaten worden teruggegeven aan de server:
-/api/test/all
+/test/all
 Iedereen kan data uit deze end-point uitlezen.
 Public Content.
-/api/test/user
+/test/user
 Alleen (ingelogd) gebruikers met de user-rol kunnen data uit deze API uitlezen.
 User Content.
-/api/test/mod
+/test/mod
 Alleen (ingelogd) gebruikers met de mod-rol kunnen data uit deze API uitlezen. Moderator Board.
-/api/test/admin
+/test/admin
 Alleen (ingelogd) gebruikers met de admin-rol kunnen data uit deze API uitlezen. Admin Board.
 
 
@@ -132,12 +140,12 @@ localhost:8090/createbike
 
 {    
 
-    "bikeNumber": "E1",
-    "brand": "Gazelle",
-    "frameNumber": "HA1234567",
-    "retailPrice": 1200,
-    "basePrice": 20.0,
-    "electric": true    
+    "bikeNumber" : "E1",
+    "brand" : "Gazelle",
+    "frameNumber" : "HA1234567",
+    "retailPrice" : 1200,
+    "basePrice" : 20.0,
+    "electric" : true    
     
 }
 
@@ -211,9 +219,9 @@ voorbeeld: localhost:8090/rentals/1/addbike
 
 {
 
-    "bikeNumber": "E1",
-    "beginDate": "22-05-2021",
-    "endDate": "23-05-2021"
+    "bikeNumber" : "E1",
+    "beginDate" : "22-05-2021",
+    "endDate" : "23-05-2021"
     
 }
 
@@ -231,18 +239,18 @@ localhost:8090/rentals/1/addcustomer
 
 {
 
-    "id":"1" 
+    "id" : "1" 
 
 }
 
-Hier geldt hetzelfde als voor de addBike methode. Rental_id staat al in de pathway en je hoeft alleen het customer_id toe te voegen.
+Hier geldt hetzelfde als voor de addBike api. Rental_id staat al in de pathway en je hoeft alleen het customer_id toe te voegen.
 
 
 localhost:8090/rentals/1/returnbike
 
 {
 
-    "bikeNumber": "E1"
+    "bikeNumber" : "E1"
 
 }
 
@@ -256,7 +264,7 @@ localhost:8090/rentals/1/paybike
 
 {
 
-    "bikeNumber": "E1"
+    "bikeNumber" : "E1"
 
 }
 
