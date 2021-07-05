@@ -3,28 +3,21 @@ package com.example.RentaBikeTestTwo.integration;
 
 import com.example.RentaBikeTestTwo.controller.AuthController;
 import com.example.RentaBikeTestTwo.controller.ExceptionController;
-import com.example.RentaBikeTestTwo.serviceImpl.AuthorizationService;
 import com.example.RentaBikeTestTwo.serviceImpl.security.WebSecurityConfig;
-import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc(addFilters = false)
-//@SpringBootTest
 @WebMvcTest
 @ContextConfiguration(classes = {
         AuthController.class, //the controller class for test

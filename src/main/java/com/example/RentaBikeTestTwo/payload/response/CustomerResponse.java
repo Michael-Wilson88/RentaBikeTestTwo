@@ -81,5 +81,4 @@ public class CustomerResponse {
         this.address = address;
     }
 
-
 }

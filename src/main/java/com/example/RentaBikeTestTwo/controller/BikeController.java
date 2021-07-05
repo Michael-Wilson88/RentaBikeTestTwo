@@ -3,17 +3,12 @@ package com.example.RentaBikeTestTwo.controller;
 import com.example.RentaBikeTestTwo.payload.request.BikeRequest;
 import com.example.RentaBikeTestTwo.service.BikeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 // TODO: 22-6-2021 check ff preAuthorize annotation
 //requestbody Authentication authentication
@@ -48,7 +43,5 @@ public class BikeController extends BaseController {
     public ResponseEntity<?> deleteBike(@PathVariable("bikeNumber") String bikeNumber) {
        return bikeService.deleteBike(bikeNumber);
     }
-
-
 
 }

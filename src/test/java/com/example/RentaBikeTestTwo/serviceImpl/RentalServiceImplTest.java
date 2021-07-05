@@ -7,9 +7,6 @@ import com.example.RentaBikeTestTwo.exceptions.BikeNotFoundException;
 import com.example.RentaBikeTestTwo.exceptions.CustomerNotFoundException;
 import com.example.RentaBikeTestTwo.exceptions.RentalNotFoundException;
 import com.example.RentaBikeTestTwo.payload.request.AddBikeRequest;
-import com.example.RentaBikeTestTwo.payload.request.AddCustomerRequest;
-import com.example.RentaBikeTestTwo.payload.request.PayBikeRequest;
-import com.example.RentaBikeTestTwo.payload.request.ReturnBikeRequest;
 import com.example.RentaBikeTestTwo.payload.response.RentalResponse;
 import com.example.RentaBikeTestTwo.repository.BikeRepository;
 import com.example.RentaBikeTestTwo.repository.CustomerRepository;
@@ -24,17 +21,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.http.HttpStatus;
 
 import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 //alle atributen private
 //alle methodes public getters and setters etc

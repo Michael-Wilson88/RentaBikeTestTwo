@@ -4,7 +4,10 @@ import com.example.RentaBikeTestTwo.domain.Bike;
 import com.example.RentaBikeTestTwo.domain.Customer;
 import com.example.RentaBikeTestTwo.domain.Rental;
 import com.example.RentaBikeTestTwo.exceptions.*;
-import com.example.RentaBikeTestTwo.payload.request.*;
+import com.example.RentaBikeTestTwo.payload.request.AddBikeRequest;
+import com.example.RentaBikeTestTwo.payload.request.AddCustomerRequest;
+import com.example.RentaBikeTestTwo.payload.request.PayBikeRequest;
+import com.example.RentaBikeTestTwo.payload.request.ReturnBikeRequest;
 import com.example.RentaBikeTestTwo.payload.response.RentalResponse;
 import com.example.RentaBikeTestTwo.repository.BikeRepository;
 import com.example.RentaBikeTestTwo.repository.CustomerRepository;
@@ -19,7 +22,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -299,7 +301,5 @@ public class RentalServiceImpl implements RentalService {
 
         return ResponseEntity.ok("error");
     }
-
-
 
 }

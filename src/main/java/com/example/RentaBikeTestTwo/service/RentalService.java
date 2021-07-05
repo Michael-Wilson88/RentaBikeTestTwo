@@ -26,6 +26,4 @@ public interface RentalService {
     LocalDate startDateFormatter(AddBikeRequest addBikeRequest);
     LocalDate returnDateFormatter(AddBikeRequest addBikeRequest);
 
-
-    // ResponseEntity<?> removeBikeFromList(long id, RemoveBikeRequest removeBikeRequest);
 }

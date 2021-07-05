@@ -2,12 +2,10 @@ package com.example.RentaBikeTestTwo.payload.response;
 
 import com.example.RentaBikeTestTwo.domain.Bike;
 import com.example.RentaBikeTestTwo.domain.Customer;
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
-import java.util.Map;
 
 @JsonInclude
 public class RentalResponse {

@@ -9,6 +9,4 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     boolean existsById(long id);
 
-
-
 }
