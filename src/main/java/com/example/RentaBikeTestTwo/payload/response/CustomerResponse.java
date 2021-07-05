@@ -13,10 +13,6 @@ public class CustomerResponse {
     public CustomerResponse(Long id, String firstName, String lastName, int age, long phoneNumber, String emailAddress, String passportNumber, String country, String address) {
     }
 
-    public CustomerResponse(long id, String firstName, String lastName) {
-    }
-
-
     public String getFirstName() {
         return firstName;
     }

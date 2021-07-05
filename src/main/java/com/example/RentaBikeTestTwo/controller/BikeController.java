@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-// TODO: 22-6-2021 check ff preAuthorize annotation
-//requestbody Authentication authentication
-// User user = authetication.getName(Username)
+
 @RestController
 public class BikeController extends BaseController {
 

@@ -5,9 +5,8 @@ import javax.validation.constraints.NotBlank;
 
 public class PayBikeRequest {
 
-    @NotBlank(message = "Bikenumber  is mandatory")
+    @NotBlank(message = "Bike number  is mandatory")
     private String bikeNumber;
-
 
     public String getBikeNumber() {
         return bikeNumber;

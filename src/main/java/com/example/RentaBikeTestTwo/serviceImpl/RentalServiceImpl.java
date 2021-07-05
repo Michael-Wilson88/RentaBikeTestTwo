@@ -42,9 +42,6 @@ public class RentalServiceImpl implements RentalService {
     @Autowired
     private CustomerRepository customerRepository;
 
-// todo: response moet normaliter in Json zijn en ik heb nu response entities, moet ik ff checken
-// TODO: 25-6-2021 dateformatter test , createrental test en calculate price
-
     @Autowired
     public void setRentalRepository(RentalRepository rentalRepository) {
         this.rentalRepository = rentalRepository;
@@ -53,8 +50,6 @@ public class RentalServiceImpl implements RentalService {
     public Collection<Rental> getRentals() {
         return rentalRepository.findAll();
     }
-
-
 
 
     public ResponseEntity<?> getRentalInfoById(long id) {
@@ -86,7 +81,7 @@ public class RentalServiceImpl implements RentalService {
         rentalResponse.setId(rental.getId());
 
         double totalPrice = 0;
-        for (Bike bike : bikes) { //totaalprijs
+        for (Bike bike : bikes) {
             totalPrice = bike.getRentalPrice() + totalPrice;
         }
         rentalResponse.setTotalPrice(totalPrice);
@@ -145,7 +140,7 @@ public class RentalServiceImpl implements RentalService {
                 .parseCaseInsensitive()
                 .appendPattern("dd-MM-yyyy")
                 .toFormatter(Locale.ENGLISH);
-        // unix time
+
         return LocalDate.parse(addBikeRequest.getBeginDate(), formatter);
     }
 
@@ -227,6 +222,7 @@ public class RentalServiceImpl implements RentalService {
 
         bikes = rental.getBikes();
         Bike bike = findBikeByBikeNumberInList(bikes, returnBikeRequest.getBikeNumber());
+
         if (!bikes.contains(bike)) {
             return ResponseEntity.status(404).body("This bike is not in this list.");
         }
@@ -253,6 +249,7 @@ public class RentalServiceImpl implements RentalService {
                     rentalRepository.save(rental);
                     return ResponseEntity.ok("Bike has returned safely.");
                 }
+
         return ResponseEntity.status(400).body("Error");
     }
 

@@ -1,6 +1,5 @@
 package com.example.RentaBikeTestTwo.integration;
 
-
 import com.example.RentaBikeTestTwo.controller.BikeController;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Assertions;
@@ -26,7 +25,6 @@ public class BikeControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
-
 
     @Test
     void contextLoads() {
@@ -78,14 +76,13 @@ public class BikeControllerIntegrationTest {
 
 //    @Test
 //    void whenPostRequestNoBasePrice_thenBadRequestResponse() throws Exception {
-//// TODO: 23-6-2021 wachten op antwoord stack overflow
 //
 //        String bike = "{" +
 //                "   \"bikeNumber\" : \"E1\"," +
 //                "   \"brand\" : \"Gazelle\"," +
 //                "   \"frameNumber\" : \"HA1234568\"," +
 //                "   \"retailPrice\" : 1200," +
-//                "   \"basePrice\" : , " +
+//                "   \"basePrice\" : 20.0, " +
 //                "   \"electric\" : true" +
 //                "}";
 //        mockMvc.perform(MockMvcRequestBuilders.post("/createbike")

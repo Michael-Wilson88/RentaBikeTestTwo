@@ -33,7 +33,7 @@ public class Bike {
         this.isElectric = isElectric;
         this.basePrice = basePrice;
     }
-    // boolean of -waarde geven
+
     public Bike() {
 
     }

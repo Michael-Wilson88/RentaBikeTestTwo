@@ -9,7 +9,7 @@ De gebruiker kan zelf fietsen en klanten aan de database toevoegen om ze vervolg
 
 # Uitleg.
 De gebruiker maakt als eerste fietsen aan die hij/zij vervolgens kunt gaan verhuren. 
-Deze fietsen hebben allemaal en fietsnummer die de gebruiker zelf kan bepalen. 
+Deze fietsen hebben allemaal een fietsnummer die de gebruiker zelf kan bepalen. 
 Als voorbeeld heb ik “E1” genomen, E omdat de fiets elektrisch is en 1 omdat het de eerste is. 
 Op de fiets wordt een sticker geplakt met het juiste nummer zodat iedereen in de verhuur kan zien om welke fiets het gaat.
 

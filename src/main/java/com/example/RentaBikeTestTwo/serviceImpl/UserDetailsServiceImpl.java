@@ -1,7 +1,5 @@
 package com.example.RentaBikeTestTwo.serviceImpl;
 
-//import nl.novi.stuivenberg.springboot.example.security.domain.User;
-//import nl.novi.stuivenberg.springboot.example.security.repository.UserRepository;
 import com.example.RentaBikeTestTwo.domain.User;
 import com.example.RentaBikeTestTwo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

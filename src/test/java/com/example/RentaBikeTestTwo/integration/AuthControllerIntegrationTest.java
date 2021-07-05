@@ -2,15 +2,12 @@ package com.example.RentaBikeTestTwo.integration;
 
 
 import com.example.RentaBikeTestTwo.controller.AuthController;
-import com.example.RentaBikeTestTwo.controller.ExceptionController;
-import com.example.RentaBikeTestTwo.serviceImpl.security.WebSecurityConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -18,12 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc(addFilters = false)
-@WebMvcTest
-@ContextConfiguration(classes = {
-        AuthController.class, //the controller class for test
-        WebSecurityConfig.class, //security configurations, if any
-        ExceptionController.class //<-- this is the ControllerAdvice class
-})
+@SpringBootTest
 public class AuthControllerIntegrationTest {
 
     @Autowired
@@ -38,7 +30,7 @@ public class AuthControllerIntegrationTest {
         Assertions.assertNotNull(authController);
     }
 
-    // TODO: 29-6-2021 hier een probleem met json object wanneer test als 'te' geschreven wordt (@Size annotation)
+    // TODO: 29-6-2021 hier een probleem met json object wanneer test als 'te' geschreven wordt (@Size annotation), met Peter naar gekeken maar die wist ook niet wat er scheelt.
 //    @Test
 //    void whenPostRequestEmptyUserName_thenErrorResponse() throws Exception {
 //
@@ -72,7 +64,6 @@ public class AuthControllerIntegrationTest {
                 .content(signup)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.password", Is.is( "\"User registered successfully!\"")))
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
         Assertions.assertEquals("User registered successfully!", "User registered successfully!");
     }

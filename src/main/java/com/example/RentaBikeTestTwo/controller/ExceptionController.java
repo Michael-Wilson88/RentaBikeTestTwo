@@ -16,7 +16,6 @@ import java.time.DateTimeException;
 @ControllerAdvice
 public class ExceptionController {
 
-
     @ExceptionHandler(value = BikeNotFoundException.class)
     public ResponseEntity<Object> exception(BikeNotFoundException bikeNotFoundException) {
         return ResponseEntity.status(404).body(bikeNotFoundException.getMessage());

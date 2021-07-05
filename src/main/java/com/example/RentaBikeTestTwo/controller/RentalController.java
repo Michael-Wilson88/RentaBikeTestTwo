@@ -1,13 +1,15 @@
 package com.example.RentaBikeTestTwo.controller;
 
-import com.example.RentaBikeTestTwo.payload.request.*;
+import com.example.RentaBikeTestTwo.payload.request.AddBikeRequest;
+import com.example.RentaBikeTestTwo.payload.request.AddCustomerRequest;
+import com.example.RentaBikeTestTwo.payload.request.PayBikeRequest;
+import com.example.RentaBikeTestTwo.payload.request.ReturnBikeRequest;
 import com.example.RentaBikeTestTwo.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.DateTimeException;
 
 @RestController
 public class RentalController extends BaseController {
