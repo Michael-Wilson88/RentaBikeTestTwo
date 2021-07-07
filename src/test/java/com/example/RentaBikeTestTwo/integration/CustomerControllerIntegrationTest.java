@@ -77,28 +77,6 @@ public class CustomerControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
     }
 
-//    @Test
-//    void whenPostRequestToAddEmptyPhoneNumber_thenBadRequestResponse() throws Exception {
-//
-//
-//        String customer = "{" +
-//                "   \"firstName\" : \"Kees\"," +
-//                "   \"lastName\" : \"van Dam\"," +
-//                "   \"age\" : \"60\"," +
-//                "   \"phoneNumber\" : \"\"," +
-//                "   \"emailAddress\" : \"kees@RentaBike.com\"," +
-//                "   \"passportNumber\" :  \"HA72419BZ\"," +
-//                "   \"country\" : \"Netherlands\"," +
-//                "   \"address\" : \"HavenStraat 22\" " +
-//                "}";
-//        mockMvc.perform(MockMvcRequestBuilders.post("/createcustomer")
-//                .content(customer)
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(jsonPath("$.phoneNumber", Is.is( "Phone number is mandatory.")))
-//                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
-//    }
-
     @Test
     void whenPostRequestToAddEmptyPassportNumber_thenBadRequestResponse() throws Exception {
 

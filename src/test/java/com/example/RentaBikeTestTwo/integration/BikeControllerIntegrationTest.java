@@ -74,23 +74,4 @@ public class BikeControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
     }
 
-//    @Test
-//    void whenPostRequestNoBasePrice_thenBadRequestResponse() throws Exception {
-//
-//        String bike = "{" +
-//                "   \"bikeNumber\" : \"E1\"," +
-//                "   \"brand\" : \"Gazelle\"," +
-//                "   \"frameNumber\" : \"HA1234568\"," +
-//                "   \"retailPrice\" : 1200," +
-//                "   \"basePrice\" : 20.0, " +
-//                "   \"electric\" : true" +
-//                "}";
-//        mockMvc.perform(MockMvcRequestBuilders.post("/createbike")
-//                .content(bike)
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(jsonPath("$.basePrice", Is.is( "Base price is mandatory.")))
-//                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
-//    }
-
 }

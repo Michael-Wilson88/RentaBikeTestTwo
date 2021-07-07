@@ -118,20 +118,6 @@ class BikeServiceImplTest {
         Assertions.assertEquals(("Bike " + bikeNumber + " deleted."), ("Bike " + bikeNumber + " deleted."));
     }
 
-
 }
-//        String bikeNumber = "T1";
-//
-//        Mockito.when(bikeRepository.findByBikeNumber(bikeNumber)).thenReturn(Optional.empty());
-//
-//        ResponseEntity<?> responseEntity = bikeService.getBikeByBikeNumber(bikeNumber);
-//
-//        Assertions.assertEquals(400, responseEntity.getStatusCodeValue());
-//        Assertions.assertTrue(responseEntity.getBody() instanceof ErrorResponse);
-//        Assertions.assertEquals(1, ((ErrorResponse) responseEntity.getBody()).getErrors().size());
-//
-//        Assertions.assertTrue(((((ErrorResponse) responseEntity.getBody()).getErrors()).containsKey("Bike Number")));
-//        Assertions.assertEquals("Bike Number (" + bikeNumber + ") does not exist.", ((ErrorResponse) responseEntity.getBody()).getErrors().get("Bike Number"));
-//
-//    }
+
 

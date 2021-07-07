@@ -29,8 +29,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-//alle atributen private
-//alle methodes public getters and setters etc
 
 @AutoConfigureTestDatabase
 @ExtendWith(MockitoExtension.class)
@@ -106,57 +104,6 @@ class RentalServiceImplTest {
 
         assertEquals("Bike nr: " + bike.getBikeNumber() + " does not exist.", exception.getMessage());
     }
-
-//    deze rest nog goed nakijken, doet het niet
-//    @Test
-//    void noCustomerShouldGiveErrorStatus(){
-//
-//
-//        Rental rental = new Rental();
-//        rental.setId(1L);
-////        rentalRepository.save(rental);
-//
-//
-////        Rental rental = mock(Rental.class);
-//        Customer customer = mock(Customer.class);
-//        customerRepository.save(customer);
-//        rental.setCustomer(customer);
-//        rentalRepository.save(rental);
-//
-//        Mockito
-//                .when(rentalService.checkIfRentalExists(1l)).thenReturn(rental);
-//
-//        System.out.println(rental.getCustomer());
-//
-//
-//       // Mockito.when(rentalService.checkIfRentalExists(rental.getId())).thenReturn(rental);
-//
-////        when(rentalRepository.save(Mockito.any(Rental.class))).thenReturn(rental);
-//
-//
-//        ResponseEntity<?> responseEntity = rentalService.getRentalInfoById(rental.getId());
-//
-//        Assertions.assertEquals(404, responseEntity.getStatusCodeValue());
-//        Assertions.assertEquals("No customer found, please add a customer to rental.", "No customer found, please add a customer to rental.");
-//    }
-//
-//    @Test
-//    void addBikeShouldAddBikeToRental(){
-//
-//
-//    }
-
-
-
-
-
-
-
-//    @Test
-//    void rentalDayshouldReturnOne() {
-//        long id = 1;
-//
-//    }
 
     @Test
     void findBikeShouldReturnBike() {

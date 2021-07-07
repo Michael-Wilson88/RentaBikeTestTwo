@@ -47,7 +47,6 @@ class CustomerServiceImplTest {
         customerRequest.setAddress("Testlaan 1");
     }
 
-//    @Test
     @Test
     void nonExistingCustomerIdShouldReturnError() {
 

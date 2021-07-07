@@ -47,7 +47,7 @@ public class RentalControllerIntegrationTest {
                 .andExpect(status().isOk());
     }
 
-    // TODO: 29-6-2021 geen idee hoe ik id moet neerzetten in url path
+    // TODO: 29-6-2021 geen idee hoe ik id moet neerzetten in url path, met Peter naar gekeken maar ook hij kon het niet oplossen
     @Test
     void whenPostRequestEmptyBikeNumber_thenBadRequestResponse() throws Exception {
 
