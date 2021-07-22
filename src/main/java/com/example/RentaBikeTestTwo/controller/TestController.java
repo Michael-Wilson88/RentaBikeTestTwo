@@ -1,6 +1,6 @@
 package com.example.RentaBikeTestTwo.controller;
 
-import com.example.RentaBikeTestTwo.serviceImpl.TestService;
+import com.example.RentaBikeTestTwo.serviceimpl.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

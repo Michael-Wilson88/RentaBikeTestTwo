@@ -25,7 +25,7 @@ public class Bike {
     private LocalDate returnDate;
 
 
-    public Bike(String brand, String frameNumber, long retailPrice, String bikeNumber, boolean isElectric, double basePrice) {
+    public Bike (String brand, String frameNumber, long retailPrice, String bikeNumber, boolean isElectric, double basePrice) {
         this.brand = brand;
         this.frameNumber = frameNumber;
         this.retailPrice = retailPrice;
