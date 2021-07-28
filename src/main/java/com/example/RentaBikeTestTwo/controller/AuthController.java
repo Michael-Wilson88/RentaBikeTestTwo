@@ -4,7 +4,7 @@ import com.example.RentaBikeTestTwo.payload.request.LoginRequest;
 import com.example.RentaBikeTestTwo.payload.request.SignupRequest;
 import com.example.RentaBikeTestTwo.payload.response.JwtResponse;
 import com.example.RentaBikeTestTwo.payload.response.MessageResponse;
-import com.example.RentaBikeTestTwo.serviceimpl.AuthorizationService;
+import com.example.RentaBikeTestTwo.serviceImpl.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
