@@ -4,9 +4,11 @@ import com.example.RentaBikeTestTwo.domain.Bike;
 import com.example.RentaBikeTestTwo.domain.Customer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 @JsonInclude
 public class RentalResponse {
 
@@ -23,38 +25,6 @@ public class RentalResponse {
 
     public RentalResponse() {
 
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<Bike> getBikes() {
-        return bikes;
-    }
-    public void setBikes(List<Bike> bikes) {
-        this.bikes = bikes;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
 }

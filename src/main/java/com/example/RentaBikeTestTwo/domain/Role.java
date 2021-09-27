@@ -1,9 +1,10 @@
 package com.example.RentaBikeTestTwo.domain;
 
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-
+@Data
 @Entity
 public class Role {
 
@@ -25,23 +26,4 @@ public class Role {
     public Role() {
     }
 
-    public Role(ERole name) {
-        this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public ERole getName() {
-        return name;
-    }
-
-    public void setName(ERole name) {
-        this.name = name;
-    }
 }
